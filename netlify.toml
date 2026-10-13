@@ -1,0 +1,20 @@
+# Configurazione Netlify: il sito è statico, nessuna build.
+# I file di progetto (istruzioni, documentazione) non sono pubblicati: restituiscono 404.
+
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404"
+  status = 404
+  force = true
