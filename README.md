@@ -24,6 +24,15 @@ Nuova sezione: aggiungi la voce in `DC` dentro `js/app.js`, crea `js/schede-<nom
 - **Netlify**: su app.netlify.com, "Add new site" → "Deploy manually" → trascina l'intera cartella.
 - **GitHub + Netlify/Cloudflare Pages**: carica la cartella in un repository; come comando di build lascia vuoto, cartella di pubblicazione `/`.
 
+## Flusso di lavoro (Claude Code + GitHub Desktop)
+1. Chiedi la modifica a Claude Code (es. "aggiungi la scheda X nella sezione Ginocchio").
+2. Claude modifica i file e controlla il sito nel browser (console, sezioni, ricerca, numero di schede).
+3. Controlla le modifiche (diff) e, se vanno bene, Claude fa il commit con un messaggio in italiano.
+4. In GitHub Desktop premi **Push origin** per inviare i commit su GitHub.
+5. Se lavori anche da un altro computer, prima di iniziare premi **Fetch origin** e poi **Pull origin**.
+
+Repository: https://github.com/furlinicola04-ux/Rehab-site (privato)
+
 ## Note
 - La spunta "verificata su PubMed" è salvata solo nel browser in uso (localStorage).
 - Non inserire mai dati di pazienti, nemmeno anonimizzati.
