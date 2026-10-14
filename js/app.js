@@ -64,7 +64,7 @@ const SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Tes
 function detail(s,from){const back=from==='Tutti'?'Home':DC[from].l;
 document.body.classList.add('det');
 nav.innerHTML=`<button class='back' data-back aria-label='Torna a ${esc(back)}'><i class='bk'></i><span class='bl'>${esc(back)}</span></button><span class='nt'>${esc(s.t)}</span>`;
-document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'><span class='ri' style='background:${DC[s.d].c}'>${DC[s.d].e}</span>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}${s.nw?` <span class='nw'>NUOVA</span>`:''}</h1></div>`;
+document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'><span class='ri' style='--dc:${DC[s.d].c}'>${DC[s.d].e}</span>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}${s.nw?` <span class='nw'>NUOVA</span>`:''}</h1></div>`;
 document.getElementById('tiles').style.display='none';
 list.innerHTML=`<article class='grp sc' id='c-${esc(s.id)}' style='--dc:${DC[s.d].c}'><div class='body'>${card(s)}</div></article>`;
 cur=list.firstElementChild;bindSrc(cur);
@@ -75,8 +75,8 @@ document.body.classList.remove('det');cur=null;cbar.classList.remove('on');nav.c
 nav.innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>🏠 Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' data-go='${k}'>${DC[k].e} ${DC[k].l}</a>`).join('');
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
-tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='background:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
-else{hero.innerHTML=`<div class='ph'><span class='ri lg' style='background:${DC[dist].c}'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
+tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='--dc:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
+else{hero.innerHTML=`<div class='ph'><span class='ri lg' style='--dc:${DC[dist].c}'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
 const on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
 q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l}
 // Transizione da app: la scheda entra da destra ed esce verso destra (stesso percorso); con "riduci movimento" solo dissolvenza
