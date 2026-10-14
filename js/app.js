@@ -29,7 +29,7 @@ function rts(r){return `${r.intro?`<p>${esc(r.intro)}</p>`:''}<div class='crit t
 function ev(a){const cl={Centrale:'r-c',Supporto:'r-s',Evitare:'r-e'};return `<div class='wrap'><table class='ev-c'><tr><th>Intervento</th><th>Ruolo</th><th>Certezza e limite</th></tr>${a.map(r=>`<tr><td>${esc(r[0])}</td><td class='${cl[r[1]]||''}'>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>`}
 function fonti(s){return s.f.map((f,i)=>{const k='v:'+s.id+i,on=ls(k)==='1';const u=f[2]?(f[2].startsWith('PMID')?'https://pubmed.ncbi.nlm.nih.gov/'+f[2].slice(4).trim()+'/':'https://doi.org/'+f[2]):P(f[1]);return `<div class='src'><input type='checkbox' id='${k}' data-k='${k}' ${on?'checked':''}><div><a href='${u}' target='_blank' rel='noopener'>${esc(f[0])}</a>${f[2]?` <span class='cm'>· ${f[2].startsWith('PMID')?esc(f[2]):'DOI'} dal materiale</span>`:''}<br><label for='${k}'>${on?'✓ verificata su PubMed':'da verificare su PubMed'}</label></div></div>`}).join('')}
 function sec(h,b){return b?`<h3>${h}</h3>${b}`:''}
-function card(s,open){const dc=DC[s.d].c;
+function card(s,open,tg){const dc=DC[s.d].c;
 const fl=(s.red||[]).map(x=>`<div class='fl r'><b>Red flag</b>${esc(x)}</div>`).join('')+(s.yel||[]).map(x=>`<div class='fl y'><b>Yellow flag</b>${esc(x)}</div>`).join('');
 let b='';
 if(s.key)b+=`<div class='keyb'><b>Punti chiave</b>${L(s.key)}</div>`;
@@ -44,14 +44,16 @@ b+=sec('Percorso per fasi',s.fasi?fasi(s):'');
 b+=sec('Trattamenti ed evidenza',s.ev?ev(s.ev):'');
 b+=sec('Criteri di rientro',s.rts?rts(s.rts):'');
 b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
-return `<details class='sc' id='c-${s.id}' style='--dc:${dc}' ${open?'open':''}><summary><span class='st'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b>${s.sub?`<small>${esc(s.sub)}</small>`:''}</span><span class='tag'>${esc(DC[s.d].l)}</span></summary><div class='body'>${b}</div></details>`}
+return `<details class='sc' id='c-${s.id}' style='--dc:${dc}' ${open?'open':''}><summary><span class='st'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b>${s.sub?`<small>${esc(s.sub)}</small>`:''}</span>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}</summary><div class='body'>${b}</div></details>`}
+// Chi ha attivato "riduci movimento" salta allo scorrimento senza animazione
+const SM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
 const flat=s=>JSON.stringify(s).toLowerCase();
 const q=document.getElementById('q'),list=document.getElementById('list');
 let dist='Tutti';
 function draw(){const t=q.value.trim().toLowerCase();const home=dist==='Tutti'&&!t;
 document.getElementById('tiles').style.display=home?'':'none';
 const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
-list.innerHTML=home?'':(r.length?r.map(s=>card(s,false)).join(''):"<p class='empty'>Nessuna scheda trovata.</p>");
+list.innerHTML=home?'':(r.length?r.map(s=>card(s,false,dist==='Tutti')).join(''):"<p class='empty'>Nessuna scheda trovata.</p>");
 list.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
 function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`Fonti verificate su PubMed: ${ok} di ${tot}`}
 function render(){const n=d=>S.filter(s=>s.d===d).length;
@@ -60,12 +62,13 @@ const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1><p>Ortopedia e sport per studio, ripasso e pratica clinica: ${S.length} schede in ${Object.keys(DC).length} sezioni, integrate con il materiale del corso di Riabilitazione ortopedica (UNIBS).</p><div class='pg'><div></div></div><small id='pgt'></small></div>`;
 tl.innerHTML=`<div class='tiles'>${Object.keys(DC).map(k=>`<a class='tile' style='background:linear-gradient(135deg,${DC[k].c},${DC[k].c}bb)' data-go='${k}'><span class='ic'>${DC[k].e}</span><b>${DC[k].l}</b><span>${n(k)} schede</span><small>${DC[k].t}</small></a>`).join('')}</div>`;prog()}
 else{hero.innerHTML=`<div class='ph' style='background:linear-gradient(135deg,${DC[dist].c},${DC[dist].c}99)'><span class='ic'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p><div class='idx'>${S.filter(s=>s.d===dist).map(s=>`<a data-jump='${s.id}'>${esc(s.t)}</a>`).join('')}</div></div>`;tl.innerHTML=''}
+const nav=document.getElementById('nav'),on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
 q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l;q.value='';draw();window.scrollTo(0,0)}
 function go(d){try{history.pushState(null,'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;render()}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}
-const j=e.target.closest('[data-jump]');if(j){const el=document.getElementById('c-'+j.dataset.jump);if(el){el.open=true;el.scrollIntoView({behavior:'smooth',block:'start'})}}});
+const j=e.target.closest('[data-jump]');if(j){const el=document.getElementById('c-'+j.dataset.jump);if(el){el.open=true;el.scrollIntoView({behavior:SM(),block:'start'})}}});
 window.addEventListener('popstate',()=>{try{const h=decodeURIComponent(location.hash.replace('#/',''));dist=DC[h]?h:'Tutti';render()}catch(e){}});
-const tb=document.getElementById('top');window.addEventListener('scroll',()=>{tb.style.display=window.scrollY>600?'block':'none'});tb.onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+const tb=document.getElementById('top');window.addEventListener('scroll',()=>{tb.style.display=window.scrollY>600?'block':'none'});tb.onclick=()=>window.scrollTo({top:0,behavior:SM()});
 q.oninput=draw;
 try{const h0=decodeURIComponent(location.hash.replace('#/',''));if(DC[h0])dist=h0}catch(e){}
 render();
