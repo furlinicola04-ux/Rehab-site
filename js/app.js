@@ -4,13 +4,13 @@ OLD.length=0;
 const DC={
 Spalla:{c:'#2563eb',e:'💪',l:'Spalla',t:'Instabilità, cuffia, AC, capsulite, protesi e fratture'},
 Gomito:{c:'#7c3aed',e:'🦾',l:'Gomito',t:'Traumi, rigidità, epicondilalgia ed epitrocleite'},
-Mano:{c:'#0891b2',e:'✋',l:'Mano e polso',t:'Fratture, legamenti, TFCC, Dupuytren, rizoartrosi'},
+Mano:{c:'#0e7490',e:'✋',l:'Mano e polso',t:'Fratture, legamenti, TFCC, Dupuytren, rizoartrosi'},
 Anca:{c:'#dc2626',e:'🦴',l:'Anca',t:'Coxartrosi e protesi, FAI, fratture di femore, dolore laterale'},
-Ginocchio:{c:'#059669',e:'🦵',l:'Ginocchio',t:'LCA, collaterali, LCP, menischi, artrosi, femoro-rotulea'},
-Caviglia:{c:'#d97706',e:'🦶',l:'Caviglia e piede',t:'Distorsioni, sindesmosi, Achille, fascite plantare'},
+Ginocchio:{c:'#047857',e:'🦵',l:'Ginocchio',t:'LCA, collaterali, LCP, menischi, artrosi, femoro-rotulea'},
+Caviglia:{c:'#b45309',e:'🦶',l:'Caviglia e piede',t:'Distorsioni, sindesmosi, Achille, fascite plantare'},
 Colonna:{c:'#475569',e:'🧍',l:'Colonna',t:'Low back pain, radicolopatia, stenosi, scoliosi, cervicobrachialgia'},
 Muscoli:{c:'#db2777',e:'🔥',l:'Lesioni muscolari',t:'Hamstring e polpaccio, fino al ritorno allo sprint'},
-Principi:{c:'#65a30d',e:'🧭',l:'Principi',t:'Dolore, dosaggio della forza, AMI, edema e cicatrice'}};
+Principi:{c:'#4d7c0f',e:'🧭',l:'Principi',t:'Dolore, dosaggio della forza, AMI, edema e cicatrice'}};
 const KN={i:'Isometrico',f:'Forza',p:'Pliometria / velocità',c:'Controllo',m:'Mobilità'};
 const P=t=>'https://pubmed.ncbi.nlm.nih.gov/?term='+encodeURIComponent(t);
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
@@ -60,8 +60,8 @@ function render(){const n=d=>S.filter(s=>s.d===d).length;
 document.getElementById('nav').innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>🏠 Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' style='--dc:${DC[k].c}' data-go='${k}'>${DC[k].e} ${DC[k].l}</a>`).join('');
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1><p>Ortopedia e sport per studio, ripasso e pratica clinica: ${S.length} schede in ${Object.keys(DC).length} sezioni, integrate con il materiale del corso di Riabilitazione ortopedica (UNIBS).</p><div class='pg'><div></div></div><small id='pgt'></small></div>`;
-tl.innerHTML=`<div class='tiles'>${Object.keys(DC).map(k=>`<a class='tile' style='background:linear-gradient(135deg,${DC[k].c},${DC[k].c}bb)' data-go='${k}'><span class='ic'>${DC[k].e}</span><b>${DC[k].l}</b><span>${n(k)} schede</span><small>${DC[k].t}</small></a>`).join('')}</div>`;prog()}
-else{hero.innerHTML=`<div class='ph' style='background:linear-gradient(135deg,${DC[dist].c},${DC[dist].c}99)'><span class='ic'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p><div class='idx'>${S.filter(s=>s.d===dist).map(s=>`<a data-jump='${s.id}'>${esc(s.t)}</a>`).join('')}</div></div>`;tl.innerHTML=''}
+tl.innerHTML=`<div class='tiles'>${Object.keys(DC).map(k=>`<a class='tile' style='background:linear-gradient(135deg,${DC[k].c},color-mix(in srgb,${DC[k].c} 82%,#000))' data-go='${k}'><span class='ic'>${DC[k].e}</span><b>${DC[k].l}</b><span>${n(k)} schede</span><small>${DC[k].t}</small></a>`).join('')}</div>`;prog()}
+else{hero.innerHTML=`<div class='ph' style='background:linear-gradient(135deg,${DC[dist].c},color-mix(in srgb,${DC[dist].c} 82%,#000))'><span class='ic'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p><div class='idx'>${S.filter(s=>s.d===dist).map(s=>`<a data-jump='${s.id}'>${esc(s.t)}</a>`).join('')}</div></div>`;tl.innerHTML=''}
 const nav=document.getElementById('nav'),on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
 q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l;q.value='';draw();window.scrollTo(0,0)}
 function go(d){try{history.pushState(null,'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;render()}
