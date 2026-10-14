@@ -29,7 +29,8 @@ function rts(r){return `${r.intro?`<p>${esc(r.intro)}</p>`:''}<div class='crit t
 function ev(a){const cl={Centrale:'r-c',Supporto:'r-s',Evitare:'r-e'};return `<div class='wrap'><table class='ev-c'><tr><th>Intervento</th><th>Ruolo</th><th>Certezza e limite</th></tr>${a.map(r=>`<tr><td>${esc(r[0])}</td><td class='${cl[r[1]]||''}'>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>`}
 function fonti(s){return s.f.map((f,i)=>{const k='v:'+s.id+i,on=ls(k)==='1';const u=f[2]?(f[2].startsWith('PMID')?'https://pubmed.ncbi.nlm.nih.gov/'+f[2].slice(4).trim()+'/':'https://doi.org/'+f[2]):P(f[1]);return `<div class='src'><input type='checkbox' id='${k}' data-k='${k}' ${on?'checked':''}><div><a href='${u}' target='_blank' rel='noopener'>${esc(f[0])}</a>${f[2]?` <span class='cm'>· ${f[2].startsWith('PMID')?esc(f[2]):'DOI'} dal materiale</span>`:''}<br><label for='${k}'>${on?'✓ verificata su PubMed':'da verificare su PubMed'}</label></div></div>`}).join('')}
 function sec(h,b){return b?`<h3>${h}</h3>${b}`:''}
-function card(s,open,tg){const dc=DC[s.d].c;
+// Corpo completo della scheda (pagina della scheda)
+function card(s){
 const fl=(s.red||[]).map(x=>`<div class='fl r'><b>Red flag</b>${esc(x)}</div>`).join('')+(s.yel||[]).map(x=>`<div class='fl y'><b>Yellow flag</b>${esc(x)}</div>`).join('');
 let b='';
 if(s.key)b+=`<div class='keyb'><b>Punti chiave</b>${L(s.key)}</div>`;
@@ -44,46 +45,63 @@ b+=sec('Percorso per fasi',s.fasi?fasi(s):'');
 b+=sec('Trattamenti ed evidenza',s.ev?ev(s.ev):'');
 b+=sec('Criteri di rientro',s.rts?rts(s.rts):'');
 b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
-return `<details class='sc' id='c-${s.id}' style='--dc:${dc}' ${open?'open':''}><summary><span class='sm'><span class='st'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b></span>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}<i class='chev'></i></span></summary><div class='body'>${b}</div></details>`}
+return b}
+// Riga dell'elenco: tocco → pagina della scheda. Nella ricerca globale mostra anche la sezione.
+function row(s,tg){return `<a class='row sr' href='#/${s.d}/${encodeURIComponent(s.id)}' data-open='${esc(s.id)}' style='--dc:${DC[s.d].c}'><span class='rw'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}<i class='chev'></i></span></a>`}
 // Chi ha attivato "riduci movimento" salta allo scorrimento senza animazione
-const SM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches,SM=()=>RM()?'auto':'smooth';
 const flat=s=>JSON.stringify(s).toLowerCase();
-const q=document.getElementById('q'),list=document.getElementById('list');
-let dist='Tutti';
+const q=document.getElementById('q'),list=document.getElementById('list'),nav=document.getElementById('nav'),cbar=document.getElementById('cbar');
+let dist='Tutti',sid=null,cur=null,tick=false;
+function bindSrc(root){root.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
 function draw(){const t=q.value.trim().toLowerCase();const home=dist==='Tutti'&&!t;
 document.getElementById('tiles').style.display=home?'':'none';
 const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
-list.innerHTML=home?'':(r.length?`<div class='grp'>${r.map(s=>card(s,false,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>");
-cur=null;cbar.classList.remove('on');list.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
+list.innerHTML=home?'':(r.length?`<div class='grp'>${r.map(s=>row(s,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>")}
 function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`${ok} di ${tot}`}
-function render(){const n=d=>S.filter(s=>s.d===d).length;
-document.getElementById('nav').innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>🏠 Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' style='--dc:${DC[k].c}' data-go='${k}'>${DC[k].e} ${DC[k].l}</a>`).join('');
+const SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Test e valutazione':'Test','Esercizi e carichi':'Esercizi','Percorso per fasi':'Fasi','Trattamenti ed evidenza':'Evidenza','Criteri di rientro':'Rientro'};
+// Pagina della scheda: barra con "‹ Indietro" e titolo piccolo, titolo grande, corpo; la fila dei capitoli compare quando il titolo grande esce dallo schermo
+function detail(s,from){const back=from==='Tutti'?'Home':DC[from].l;
+document.body.classList.add('det');
+nav.innerHTML=`<button class='back' data-back aria-label='Torna a ${esc(back)}'><i class='bk'></i><span class='bl'>${esc(back)}</span></button><span class='nt'>${esc(s.t)}</span>`;
+document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'><span class='ri' style='background:${DC[s.d].c}'>${DC[s.d].e}</span>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}${s.nw?` <span class='nw'>NUOVA</span>`:''}</h1></div>`;
+document.getElementById('tiles').style.display='none';
+list.innerHTML=`<article class='grp sc' id='c-${esc(s.id)}' style='--dc:${DC[s.d].c}'><div class='body'>${card(s)}</div></article>`;
+cur=list.firstElementChild;bindSrc(cur);
+cbar.style.setProperty('--dc',DC[s.d].c);
+cbar.innerHTML=`<div class='cb-in'><div class='cb-s'>${[...cur.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}
+function lista(){const n=d=>S.filter(s=>s.d===d).length;
+document.body.classList.remove('det');cur=null;cbar.classList.remove('on');nav.classList.remove('tt');
+nav.innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>🏠 Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' data-go='${k}'>${DC[k].e} ${DC[k].l}</a>`).join('');
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
 tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='background:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
 else{hero.innerHTML=`<div class='ph'><span class='ri lg' style='background:${DC[dist].c}'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
-const nav=document.getElementById('nav'),on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
-q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l;q.value='';draw();window.scrollTo(0,0)}
-function go(d){try{history.pushState(null,'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;render()}
-document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}
-const j=e.target.closest('[data-jump]');if(j){const el=document.getElementById('c-'+j.dataset.jump);if(el){el.open=true;el.scrollIntoView({behavior:SM(),block:'start'})}}});
-window.addEventListener('popstate',()=>{try{const h=decodeURIComponent(location.hash.replace('#/',''));dist=DC[h]?h:'Tutti';render()}catch(e){}});
-// Barra della scheda aperta: compare quando il titolo esce dallo schermo; titolo, chiudi e salto alle sezioni
-const cbar=document.getElementById('cbar'),SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Test e valutazione':'Test','Esercizi e carichi':'Esercizi','Percorso per fasi':'Fasi','Trattamenti ed evidenza':'Evidenza','Criteri di rientro':'Rientro'};
-let cur=null,tick=false;
-const navH=()=>document.getElementById('nav').offsetHeight;
-function cb(){tick=false;const y=navH();let c=null;
-for(const d of list.querySelectorAll('details.sc[open]')){if(d.querySelector('summary').getBoundingClientRect().bottom<y&&d.getBoundingClientRect().bottom>y+120){c=d;break}}
-if(c!==cur){cur=c;cbar.classList.toggle('on',!!c);if(c){const s=S.find(x=>'c-'+x.id===c.id);cbar.style.top=y+'px';cbar.style.setProperty('--dc',DC[s.d].c);
-cbar.innerHTML=`<div class='cb-in'><div class='cb-t'><b>${esc(s.t)}</b><button class='cb-x' aria-label='Chiudi la scheda'>✕</button></div><div class='cb-s'>${[...c.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}}
-if(cur){const lim=y+cbar.offsetHeight+12;let a=-1;cur.querySelectorAll('.body>h3').forEach((h,i)=>{if(h.getBoundingClientRect().top<lim)a=i});
-const row=cbar.querySelector('.cb-s'),was=row.querySelector('.on'),now=row.children[a];if(was!==now){if(was)was.classList.remove('on');if(now){now.classList.add('on');row.scrollLeft=now.offsetLeft-16}}}}
+const on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
+q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l}
+// Transizione da app: la scheda entra da destra ed esce verso destra (stesso percorso); con "riduci movimento" solo dissolvenza
+function slide(dir){if(!dir||!document.body.animate)return;const k=RM()?[{opacity:0},{opacity:1}]:[{transform:`translateX(${dir*28}%)`,opacity:0},{transform:'none',opacity:1}];
+['hero','main'].forEach(x=>{const e=x==='main'?document.querySelector('main'):document.getElementById(x);e.animate(k,{duration:RM()?150:320,easing:'cubic-bezier(.32,.72,0,1)'})})}
+// Stato dalla URL: #/Sezione oppure #/Sezione/id-scheda
+function parse(){const p=location.hash.replace(/^#\/?/,'').split('/').map(x=>{try{return decodeURIComponent(x)}catch(e){return ''}});
+const s=p[1]&&S.find(x=>x.id===p[1]);sid=s?s.id:null;dist=s?(history.state&&history.state.from)||s.d:(DC[p[0]]?p[0]:'Tutti')}
+function render(dir,st){if(sid){detail(S.find(x=>x.id===sid),dist);window.scrollTo(0,0)}else{lista();q.value=st&&st.q||'';draw();window.scrollTo(0,st&&st.y||0)}slide(dir);cb()}
+function go(d){try{history.pushState(null,'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;sid=null;render(0)}
+function apri(id){const s=S.find(x=>x.id===id);try{history.replaceState({q:q.value,y:scrollY},'');history.pushState({from:dist,pushed:1},'','#/'+s.d+'/'+encodeURIComponent(id))}catch(e){}sid=id;render(1)}
+function back(){if(history.state&&history.state.pushed)history.back();else{const s=S.find(x=>x.id===sid);try{history.pushState(null,'','#/'+s.d)}catch(e){}dist=s.d;sid=null;render(-1)}}
+document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){e.preventDefault();apri(o.dataset.open);return}
+if(e.target.closest('[data-back]')){back();return}
+const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go)}});
+window.addEventListener('popstate',()=>{const was=!!sid;parse();render(was&&!sid?-1:!was&&sid?1:0,history.state)});
+// Mentre scorri la scheda: titolo piccolo nella barra e fila dei capitoli, con il capitolo in corso evidenziato
+const navH=()=>nav.offsetHeight;
+function cb(){tick=false;if(!cur)return;const y=navH(),h1=document.querySelector('.dh h1'),up=!!h1&&h1.getBoundingClientRect().bottom<y;
+nav.classList.toggle('tt',up);if(up!==cbar.classList.contains('on')){cbar.classList.toggle('on',up);cbar.style.top=y+'px'}
+if(!up)return;const lim=y+cbar.offsetHeight+12;let a=-1;cur.querySelectorAll('.body>h3').forEach((h,i)=>{if(h.getBoundingClientRect().top<lim)a=i});
+const row=cbar.querySelector('.cb-s'),was=row.querySelector('.on'),now=row.children[a];if(was!==now){if(was)was.classList.remove('on');if(now){now.classList.add('on');row.scrollLeft=now.offsetLeft-16}}}
 const cbq=()=>{if(!tick){tick=true;requestAnimationFrame(cb)}};
-window.addEventListener('scroll',cbq,{passive:true});document.addEventListener('toggle',cbq,true);
-cbar.addEventListener('click',e=>{if(!cur)return;const h=e.target.closest('[data-h]');
-if(h){const t=cur.querySelectorAll('.body>h3')[h.dataset.h];window.scrollTo({top:t.getBoundingClientRect().top+scrollY-navH()-cbar.offsetHeight-8,behavior:SM()});return}
-if(e.target.closest('.cb-x')){const d=cur;d.open=false;window.scrollTo(0,d.getBoundingClientRect().top+scrollY-navH()-8);cb()}});
-const tb=document.getElementById('top');window.addEventListener('scroll',()=>{tb.style.display=window.scrollY>600?'block':'none'});tb.onclick=()=>window.scrollTo({top:0,behavior:SM()});
+window.addEventListener('scroll',cbq,{passive:true});
+cbar.addEventListener('click',e=>{const h=e.target.closest('[data-h]');if(!h||!cur)return;const t=cur.querySelectorAll('.body>h3')[h.dataset.h];window.scrollTo({top:t.getBoundingClientRect().top+scrollY-navH()-cbar.offsetHeight-8,behavior:SM()})});
+const tb=document.getElementById('top');window.addEventListener('scroll',()=>{tb.style.display=window.scrollY>600?'block':'none'},{passive:true});tb.onclick=()=>window.scrollTo({top:0,behavior:SM()});
 q.oninput=draw;
-try{const h0=decodeURIComponent(location.hash.replace('#/',''));if(DC[h0])dist=h0}catch(e){}
-render();
+parse();render(0,history.state);
