@@ -1,6 +1,6 @@
 /* Grafica in stile iOS con palette lavanda: sfondo lavanda, gruppi bianchi arrotondati, riquadri lilla, verde bosco come colore d'azione.
    --acf: sfondo pieno sotto testo bianco. --dtp: quanta tinta di sezione tenere nel testo colorato (il resto è --tx). */
-:root{--bg:#ebe5f7;--card:#fff;--card2:#f0ecfa;--tx:#1d1a26;--mu:#686379;--ln:#ddd6ee;--fill:rgba(124,104,196,.11);--hl:#ebe6f8;--ac:#2b6b57;--acf:#2b6b57;--red:#c0000f;--yel:#8a6100;--ok:#2b6b57;--dtp:85%;--mat:rgba(235,229,247,.8);--lil:#e4dcfa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#e5def4;--card:#fff;--card2:#f0ecfa;--tx:#1d1a26;--mu:#625d73;--ln:#ddd6ee;--fill:rgba(124,104,196,.11);--hl:#ebe6f8;--ac:#2b6b57;--acf:#2b6b57;--red:#c0000f;--yel:#8a6100;--ok:#2b6b57;--dtp:85%;--mat:rgba(229,222,244,.8);--lil:#e4dcfa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121018;--card:#1c1a24;--card2:#292534;--tx:#f4f1fa;--mu:#a7a1bb;--ln:#363046;--fill:rgba(150,132,214,.2);--hl:#292534;--ac:#7dd3b4;--acf:#2b6b57;--red:#ff6961;--yel:#ffd426;--ok:#7dd3b4;--dtp:62%;--mat:rgba(18,16,24,.8);--lil:#2f2945}}
 :root[data-theme="dark"]{--bg:#121018;--card:#1c1a24;--card2:#292534;--tx:#f4f1fa;--mu:#a7a1bb;--ln:#363046;--fill:rgba(150,132,214,.2);--hl:#292534;--ac:#7dd3b4;--acf:#2b6b57;--red:#ff6961;--yel:#ffd426;--ok:#7dd3b4;--dtp:62%;--mat:rgba(18,16,24,.8);--lil:#2f2945}
 *{box-sizing:border-box}
