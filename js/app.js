@@ -44,7 +44,7 @@ b+=sec('Percorso per fasi',s.fasi?fasi(s):'');
 b+=sec('Trattamenti ed evidenza',s.ev?ev(s.ev):'');
 b+=sec('Criteri di rientro',s.rts?rts(s.rts):'');
 b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
-return `<details class='sc' id='c-${s.id}' style='--dc:${dc}' ${open?'open':''}><summary><span class='st'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b>${s.sub?`<small>${esc(s.sub)}</small>`:''}</span>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}</summary><div class='body'>${b}</div></details>`}
+return `<details class='sc' id='c-${s.id}' style='--dc:${dc}' ${open?'open':''}><summary><span class='sm'><span class='st'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b></span>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}<i class='chev'></i></span></summary><div class='body'>${b}</div></details>`}
 // Chi ha attivato "riduci movimento" salta allo scorrimento senza animazione
 const SM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
 const flat=s=>JSON.stringify(s).toLowerCase();
@@ -53,21 +53,36 @@ let dist='Tutti';
 function draw(){const t=q.value.trim().toLowerCase();const home=dist==='Tutti'&&!t;
 document.getElementById('tiles').style.display=home?'':'none';
 const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
-list.innerHTML=home?'':(r.length?r.map(s=>card(s,false,dist==='Tutti')).join(''):"<p class='empty'>Nessuna scheda trovata.</p>");
-list.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
-function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`Fonti verificate su PubMed: ${ok} di ${tot}`}
+list.innerHTML=home?'':(r.length?`<div class='grp'>${r.map(s=>card(s,false,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>");
+cur=null;cbar.classList.remove('on');list.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
+function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`${ok} di ${tot}`}
 function render(){const n=d=>S.filter(s=>s.d===d).length;
 document.getElementById('nav').innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>🏠 Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' style='--dc:${DC[k].c}' data-go='${k}'>${DC[k].e} ${DC[k].l}</a>`).join('');
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
-if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1><p>Ortopedia e sport per studio, ripasso e pratica clinica: ${S.length} schede in ${Object.keys(DC).length} sezioni, integrate con il materiale del corso di Riabilitazione ortopedica (UNIBS).</p><div class='pg'><div></div></div><small id='pgt'></small></div>`;
-tl.innerHTML=`<div class='tiles'>${Object.keys(DC).map(k=>`<a class='tile' style='background:linear-gradient(135deg,${DC[k].c},color-mix(in srgb,${DC[k].c} 82%,#000))' data-go='${k}'><span class='ic'>${DC[k].e}</span><b>${DC[k].l}</b><span>${n(k)} schede</span><small>${DC[k].t}</small></a>`).join('')}</div>`;prog()}
-else{hero.innerHTML=`<div class='ph' style='background:linear-gradient(135deg,${DC[dist].c},color-mix(in srgb,${DC[dist].c} 82%,#000))'><span class='ic'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p><div class='idx'>${S.filter(s=>s.d===dist).map(s=>`<a data-jump='${s.id}'>${esc(s.t)}</a>`).join('')}</div></div>`;tl.innerHTML=''}
+if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
+tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='background:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
+else{hero.innerHTML=`<div class='ph'><span class='ri lg' style='background:${DC[dist].c}'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
 const nav=document.getElementById('nav'),on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
 q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l;q.value='';draw();window.scrollTo(0,0)}
 function go(d){try{history.pushState(null,'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;render()}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go);return}
 const j=e.target.closest('[data-jump]');if(j){const el=document.getElementById('c-'+j.dataset.jump);if(el){el.open=true;el.scrollIntoView({behavior:SM(),block:'start'})}}});
 window.addEventListener('popstate',()=>{try{const h=decodeURIComponent(location.hash.replace('#/',''));dist=DC[h]?h:'Tutti';render()}catch(e){}});
+// Barra della scheda aperta: compare quando il titolo esce dallo schermo; titolo, chiudi e salto alle sezioni
+const cbar=document.getElementById('cbar'),SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Test e valutazione':'Test','Esercizi e carichi':'Esercizi','Percorso per fasi':'Fasi','Trattamenti ed evidenza':'Evidenza','Criteri di rientro':'Rientro'};
+let cur=null,tick=false;
+const navH=()=>document.getElementById('nav').offsetHeight;
+function cb(){tick=false;const y=navH();let c=null;
+for(const d of list.querySelectorAll('details.sc[open]')){if(d.querySelector('summary').getBoundingClientRect().bottom<y&&d.getBoundingClientRect().bottom>y+120){c=d;break}}
+if(c!==cur){cur=c;cbar.classList.toggle('on',!!c);if(c){const s=S.find(x=>'c-'+x.id===c.id);cbar.style.top=y+'px';cbar.style.setProperty('--dc',DC[s.d].c);
+cbar.innerHTML=`<div class='cb-in'><div class='cb-t'><b>${esc(s.t)}</b><button class='cb-x' aria-label='Chiudi la scheda'>✕</button></div><div class='cb-s'>${[...c.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}}
+if(cur){const lim=y+cbar.offsetHeight+12;let a=-1;cur.querySelectorAll('.body>h3').forEach((h,i)=>{if(h.getBoundingClientRect().top<lim)a=i});
+const row=cbar.querySelector('.cb-s'),was=row.querySelector('.on'),now=row.children[a];if(was!==now){if(was)was.classList.remove('on');if(now){now.classList.add('on');row.scrollLeft=now.offsetLeft-16}}}}
+const cbq=()=>{if(!tick){tick=true;requestAnimationFrame(cb)}};
+window.addEventListener('scroll',cbq,{passive:true});document.addEventListener('toggle',cbq,true);
+cbar.addEventListener('click',e=>{if(!cur)return;const h=e.target.closest('[data-h]');
+if(h){const t=cur.querySelectorAll('.body>h3')[h.dataset.h];window.scrollTo({top:t.getBoundingClientRect().top+scrollY-navH()-cbar.offsetHeight-8,behavior:SM()});return}
+if(e.target.closest('.cb-x')){const d=cur;d.open=false;window.scrollTo(0,d.getBoundingClientRect().top+scrollY-navH()-8);cb()}});
 const tb=document.getElementById('top');window.addEventListener('scroll',()=>{tb.style.display=window.scrollY>600?'block':'none'});tb.onclick=()=>window.scrollTo({top:0,behavior:SM()});
 q.oninput=draw;
 try{const h0=decodeURIComponent(location.hash.replace('#/',''));if(DC[h0])dist=h0}catch(e){}
