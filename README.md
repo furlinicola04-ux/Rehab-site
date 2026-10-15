@@ -23,8 +23,10 @@ manifest.webmanifest  nome e icone dell'app installata (img/app-192.png, img/app
 Nuova sezione: aggiungi la voce in `DC` dentro `js/app.js`, crea `js/schede-<nome>.js` e aggiungi la riga `<script>` in `index.html` prima di `app.js`.
 
 ## Pubblicare
-- **Netlify**: su app.netlify.com, "Add new site" → "Deploy manually" → trascina l'intera cartella.
-- **GitHub + Netlify/Cloudflare Pages**: carica la cartella in un repository; come comando di build lascia vuoto, cartella di pubblicazione `/`.
+Il sito è pubblicato con **GitHub Pages**: https://furlinicola04-ux.github.io/Rehab-site/
+Ogni commit su `main` viene pubblicato da solo in uno o due minuti (Settings → Pages: branch `main`, cartella `/ (root)`). Nessun comando di build.
+
+Attenzione: il repository è pubblico, quindi tutto quello che c'è dentro (anche CLAUDE.md e README) è visibile a chiunque.
 
 ## Flusso di lavoro (Claude Code + GitHub Desktop)
 1. Chiedi la modifica a Claude Code (es. "aggiungi la scheda X nella sezione Ginocchio").
@@ -33,7 +35,7 @@ Nuova sezione: aggiungi la voce in `DC` dentro `js/app.js`, crea `js/schede-<nom
 4. In GitHub Desktop premi **Push origin** per inviare i commit su GitHub.
 5. Se lavori anche da un altro computer, prima di iniziare premi **Fetch origin** e poi **Pull origin**.
 
-Repository: https://github.com/furlinicola04-ux/Rehab-site (privato)
+Repository: https://github.com/furlinicola04-ux/Rehab-site (pubblico)
 
 ## Offline
 Il sito funziona anche senza connessione dopo la prima apertura online (su https). Da iPhone: Safari → Condividi → "Aggiungi alla schermata Home". Se aggiungi un nuovo file `js/schede-<sezione>.js`, aggiungilo anche all'elenco `FILES` in `sw.js` e aumenta `VERSION`.
