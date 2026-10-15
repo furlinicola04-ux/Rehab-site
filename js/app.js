@@ -52,46 +52,71 @@ function row(s,tg){return `<a class='row sr' href='#/${s.d}/${encodeURIComponent
 const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches,SM=()=>RM()?'auto':'smooth';
 const flat=s=>JSON.stringify(s).toLowerCase();
 const q=document.getElementById('q'),list=document.getElementById('list'),nav=document.getElementById('nav'),cbar=document.getElementById('cbar');
-let dist='Tutti',sid=null,cur=null,tick=false;
+let dist='Tutti',sid=null,stid=null,cur=null,tick=false;
+const BIB='Biblioteca',BC='#24509a',SK=Object.keys(typeof ST==='object'?ST:{});
 function bindSrc(root){root.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
 function draw(){const t=q.value.trim().toLowerCase();const home=dist==='Tutti'&&!t;
 document.getElementById('tiles').style.display=home?'':'none';
+if(dist===BIB){const k=SK.filter(c=>!t||flat(ST[c]).includes(t)).sort((a,b)=>ST[b].y-ST[a].y);list.innerHTML=k.length?`<div class='lst'>${k.map(srow).join('')}</div>`:"<p class='empty'>Nessuno studio trovato.</p>";return}
 const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
 list.innerHTML=home?'':(r.length?`<div class='lst'>${r.map(s=>row(s,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>")}
 function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`${ok} di ${tot}`}
 const SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Test e valutazione':'Test','Esercizi e carichi':'Esercizi','Percorso per fasi':'Fasi','Trattamenti ed evidenza':'Evidenza','Criteri di rientro':'Rientro'};
 // Pagina della scheda: barra con "‹ Indietro" e titolo piccolo, titolo grande, corpo; la fila dei capitoli compare quando il titolo grande esce dallo schermo
-function detail(s,from){const back=from==='Tutti'?'Home':DC[from].l;
+function detail(s,from){const back=from==='Tutti'?'Home':DC[from]?DC[from].l:from;
 document.body.classList.add('det');
 nav.innerHTML=`<button class='back' data-back aria-label='Torna a ${esc(back)}'><i class='bk'></i><span class='bl'>${esc(back)}</span></button><span class='nt'>${esc(s.t)}</span>`;
 document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}</h1></div>`;
 document.getElementById('tiles').style.display='none';
 list.innerHTML=`<article class='grp sc' id='c-${esc(s.id)}' style='--dc:${DC[s.d].c}'><div class='body'>${card(s)}</div></article>`;
-cur=list.firstElementChild;bindSrc(cur);
-cbar.style.setProperty('--dc',DC[s.d].c);
-cbar.innerHTML=`<div class='cb-in'><div class='cb-s'>${[...cur.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}
+cbarDa(list.firstElementChild);bindSrc(cur)}
+// Biblioteca: riga dello studio (titolo, autore e anno, tipo) e pagina dello studio
+function srow(c){const x=ST[c];return `<a class='row sr' href='#/${BIB}/${c}' data-studio='${c}' style='--dc:${BC}'><span class='rw'><span class='stt'><b>${esc(x.t)}</b><small>${esc(x.a.split(',')[0])} ${x.y} · ${esc(x.tipo)}</small></span><i class='chev'></i></span></a>`}
+function cbarDa(c){cur=c;cbar.style.setProperty('--dc',c.style.getPropertyValue('--dc'));cbar.innerHTML=`<div class='cb-in'><div class='cb-s'>${[...c.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}
+function studio(c){const x=ST[c],k='st:'+c,on=ls(k)==='1';
+document.body.classList.add('det');document.body.classList.remove('home');
+nav.innerHTML=`<button class='back' data-back aria-label='Torna alla Biblioteca'><i class='bk'></i><span class='bl'>${BIB}</span></button><span class='nt'>${esc(x.t)}</span>`;
+document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${BC}'><span class='dk'>${esc(x.tipo)} · ${x.y}</span><h1 class='h1s'>${esc(x.t)}</h1><p class='dm'>${esc(x.a)} · ${esc(x.j)}</p></div>`;
+document.getElementById('tiles').style.display='none';
+const lk=[x.pmid?`<a href='https://pubmed.ncbi.nlm.nih.gov/${x.pmid}/' target='_blank' rel='noopener'>PubMed · PMID ${x.pmid}</a>`:`<a href='${P(x.t)}' target='_blank' rel='noopener'>Cerca su PubMed</a>`,x.doi?`<a href='https://doi.org/${x.doi}' target='_blank' rel='noopener'>DOI · ${esc(x.doi)}</a>`:'',x.pmc?`<a href='https://pmc.ncbi.nlm.nih.gov/articles/${x.pmc}/' target='_blank' rel='noopener'>Testo completo gratuito (PubMed Central)</a>`:''].filter(Boolean);
+const sc=(x.schede||[]).map(id=>S.find(s=>s.id===id)).filter(Boolean);
+list.innerHTML=`<article class='grp sc' id='st-${c}' style='--dc:${BC}'><div class='body'>
+<div class='bdgs'><span>${esc(x.tipo)}</span>${x.open?'<span>Open access</span>':''}</div>
+<p class='sin'>${esc(x.sintesi)}</p>
+<h3>Dallo studio</h3><div class='box dal'><b>Cosa dimostra</b>${L(x.dimostra||[])}<p class='cert'><b>Certezza delle prove:</b> ${esc(x.ev)}</p></div>
+<h3>In pratica</h3><div class='box pra'><b>Proposta operativa</b>${L(x.pratica||[])}<p class='cert'>Indicazioni per la clinica ricavate dallo studio e dalle schede: non sono soglie validate, vanno adattate al paziente.</p></div>
+${sc.length?`<h3>Schede collegate</h3><div class='lst'>${sc.map(s=>row(s,1)).join('')}</div>`:''}
+<h3>Fonte</h3><div class='lnk'>${lk.join('')}</div>
+<div class='src'><input type='checkbox' id='${k}' data-k='${k}' ${on?'checked':''}><div><label for='${k}'>${on?'✓ verificata su PubMed':'da verificare su PubMed'}</label></div></div>
+</div></article>`;
+cbarDa(list.firstElementChild);bindSrc(cur)}
 function lista(){const n=d=>S.filter(s=>s.d===d).length;
 document.body.classList.remove('det');cur=null;cbar.classList.remove('on');nav.classList.remove('tt');
 // Niente menu delle sezioni: in home la barra sparisce, in una sezione resta solo "‹ Home"
 document.body.classList.toggle('home',dist==='Tutti');
-nav.innerHTML=dist==='Tutti'?'':`<button class='back' data-back aria-label='Torna alla home'><i class='bk'></i><span class='bl'>Home</span></button><span class='nt'>${esc(DC[dist].l)}</span>`;
+const nm=dist===BIB?BIB:dist==='Tutti'?'':DC[dist].l;
+nav.innerHTML=dist==='Tutti'?'':`<button class='back' data-back aria-label='Torna alla home'><i class='bk'></i><span class='bl'>Home</span></button><span class='nt'>${esc(nm)}</span>`;
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
-tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='--dc:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
+tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='--dc:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><a class='row' data-go='${BIB}'><span class='ri' style='--dc:${BC}'>Bi</span><span class='rw'><b>${BIB}</b><span class='rc'>${SK.length}</span><i class='chev'></i></span></a></div><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
+else if(dist===BIB){hero.innerHTML=`<div class='ph' style='--dc:${BC}'><h1>${BIB}</h1><p>Studi, linee guida e revisioni · ${SK.length} ${SK.length===1?'studio':'studi'}</p></div>`;tl.innerHTML=''}
 else{hero.innerHTML=`<div class='ph' style='--dc:${DC[dist].c}'><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
-q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l}
+q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':dist===BIB?'Cerca negli studi':'Cerca in '+DC[dist].l}
 // Transizione da app: la scheda entra da destra ed esce verso destra (stesso percorso); con "riduci movimento" solo dissolvenza
 function slide(dir){if(!dir||!document.body.animate)return;const k=RM()?[{opacity:0},{opacity:1}]:[{transform:`translateX(${dir*28}%)`,opacity:0},{transform:'none',opacity:1}];
 ['hero','main'].forEach(x=>{const e=x==='main'?document.querySelector('main'):document.getElementById(x);e.animate(k,{duration:RM()?150:320,easing:'cubic-bezier(.32,.72,0,1)'})})}
 // Stato dalla URL: #/Sezione oppure #/Sezione/id-scheda
 function parse(){const p=location.hash.replace(/^#\/?/,'').split('/').map(x=>{try{return decodeURIComponent(x)}catch(e){return ''}});
+stid=null;if(p[0]===BIB){dist=BIB;sid=null;stid=p[1]&&ST[p[1]]?p[1]:null;return}
 const s=p[1]&&S.find(x=>x.id===p[1]);sid=s?s.id:null;dist=s?(history.state&&history.state.from)||s.d:(DC[p[0]]?p[0]:'Tutti')}
-function render(dir,st){if(sid){detail(S.find(x=>x.id===sid),dist);window.scrollTo(0,0)}else{lista();q.value=st&&st.q||'';draw();window.scrollTo(0,st&&st.y||0)}slide(dir);cb()}
-const dep=()=>sid?2:dist!=='Tutti'?1:0;
-function go(d){const b=dep();try{history.pushState(d==='Tutti'?null:{pushed:1},'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;sid=null;render(Math.sign(dep()-b))}
-function apri(id){const s=S.find(x=>x.id===id);try{history.replaceState({...(history.state||{}),q:q.value,y:scrollY},'');history.pushState({from:dist,pushed:1},'','#/'+s.d+'/'+encodeURIComponent(id))}catch(e){}sid=id;render(1)}
-function back(){if(history.state&&history.state.pushed)history.back();else if(!sid){dist='Tutti';try{history.pushState(null,'','#/')}catch(e){}render(-1)}else{const s=S.find(x=>x.id===sid);try{history.pushState(null,'','#/'+s.d)}catch(e){}dist=s.d;sid=null;render(-1)}}
-document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){e.preventDefault();apri(o.dataset.open);return}
+function render(dir,st){if(stid){studio(stid);window.scrollTo(0,0)}else if(sid){detail(S.find(x=>x.id===sid),dist);window.scrollTo(0,0)}else{lista();q.value=st&&st.q||'';draw();window.scrollTo(0,st&&st.y||0)}slide(dir);cb()}
+const dep=()=>sid||stid?2:dist!=='Tutti'?1:0;
+function go(d){const b=dep();try{history.pushState(d==='Tutti'?null:{pushed:1},'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;sid=null;stid=null;render(Math.sign(dep()-b))}
+function apri(id){const s=S.find(x=>x.id===id),f=stid?'Studio':dist;try{history.replaceState({...(history.state||{}),q:q.value,y:scrollY},'');history.pushState({from:f,pushed:1},'','#/'+s.d+'/'+encodeURIComponent(id))}catch(e){}dist=f;sid=id;stid=null;render(1)}
+function apriStudio(c){try{history.replaceState({...(history.state||{}),q:q.value,y:scrollY},'');history.pushState({from:dist,pushed:1},'','#/'+BIB+'/'+c)}catch(e){}stid=c;sid=null;dist=BIB;render(1)}
+function back(){if(history.state&&history.state.pushed)history.back();else if(stid){stid=null;dist=BIB;try{history.pushState(null,'','#/'+BIB)}catch(e){}render(-1)}else if(!sid){dist='Tutti';try{history.pushState(null,'','#/')}catch(e){}render(-1)}else{const s=S.find(x=>x.id===sid);try{history.pushState(null,'','#/'+s.d)}catch(e){}dist=s.d;sid=null;render(-1)}}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-studio]');if(t){e.preventDefault();apriStudio(t.dataset.studio);return}
+const o=e.target.closest('[data-open]');if(o){e.preventDefault();apri(o.dataset.open);return}
 if(e.target.closest('[data-back]')){back();return}
 const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go)}});
 window.addEventListener('popstate',()=>{const b=dep();parse();render(Math.sign(dep()-b),history.state)});

@@ -8,8 +8,9 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 - `js/fonti-corso.js`: etichette delle fonti (lezioni UNIBS, testi). Si carica PER PRIMO.
 - `js/schede-base.js`: schede di base e funzione `M()` che le estende.
 - `js/schede-<sezione>.js`: le schede, un file per sezione (spalla, gomito, mano, anca, ginocchio, caviglia, colonna, muscoli, principi).
+- `js/studi.js`: Biblioteca, archivio unico degli studi (`ST`, un codice per studio: autore+anno). Ogni studio ha `dimostra` (Dallo studio) e `pratica` (proposte operative), più `schede` collegate. Pagina: `#/Biblioteca/<codice>`.
 - `js/app.js`: logica. Contiene `DC` (elenco sezioni con colore, sigla di due lettere nel campo `e`, descrizione). Niente emoji nell'interfaccia.
-- L'ordine dei `<script>` in `index.html` è vincolante: fonti → base → sezioni → app.
+- L'ordine dei `<script>` in `index.html` è vincolante: fonti → base → sezioni → studi → app.
 
 ## Regole per ogni scheda
 - Campi: inquadramento (`inq`), red/yellow flag (`red`, `yel`), test clinici (`tst`), esercizi (`ex`), fasi con obiettivi ed esercizi collegati (`fasi`), evidenza (`ev`), criteri di rientro (`rts`), fonti (`f`).
@@ -23,6 +24,8 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 - Ogni fonte ha titolo e stringa di ricerca PubMed; aggiungi PMID o DOI solo se verificati.
 - Distingui ciò che è validato in letteratura da ciò che è una proposta operativa (serie, ripetizioni, RPE, soglie).
 - L'utente verifica le fonti su PubMed e spunta la casella nel sito.
+- Nella Biblioteca: `dimostra` contiene solo ciò che dice lo studio; `pratica` contiene le proposte operative, sempre presentate come non validate. PMID/DOI/PMC solo se verificati su PubMed, con data in `v`.
+- PDF di articoli non open access, libri e slide dei docenti non vanno mai nella cartella del sito (è pubblico): si linkano con PubMed/DOI.
 
 ## Vincoli
 - Nessun dato di pazienti, nemmeno anonimizzati.
