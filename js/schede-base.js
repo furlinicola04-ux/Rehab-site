@@ -37,8 +37,8 @@ pre:[`Allenamento completo tollerato`,
  `Supporto o taping valutati con atleta e staff`,
  `Consulto se giving way ripetuto`],
 nota:`Dopo il rientro mantenere equilibrio e forza dei peronei nel programma di prevenzione.`},
-f:[[`Vuurberg et al. 2018 – linea guida su diagnosi e trattamento della distorsione di caviglia`,`Vuurberg 2018 ankle sprain evidence-based clinical guideline diagnosis treatment`],
- [`Delahunt et al. 2018 – criteri International Ankle Consortium per l'instabilità cronica`,`Delahunt 2018 International Ankle Consortium chronic ankle instability inclusion criteria`]]});
+f:[[`Vuurberg et al. 2018 – linea guida su diagnosi e trattamento della distorsione di caviglia`,`Vuurberg 2018 ankle sprain evidence-based clinical guideline diagnosis treatment`,`PMID 29514819`],
+ [`Gribble et al. 2014 – criteri di selezione International Ankle Consortium per l'instabilità cronica (JOSPT)`,`Gribble 2014 selection criteria chronic ankle instability International Ankle Consortium`,`PMID 23902805`]]});
 
 OLD.push({id:`caviglia-sindesmosi`,d:`Caviglia`,t:`Lesione della sindesmosi tibio-peroneale`,
 sub:``,
@@ -111,8 +111,8 @@ c:[[`Sintomi e funzione`,`VISA-A e dolore`,`In miglioramento; nessuna soglia uni
 pre:[`Allenamento completo tollerato`,
  `Sprint, COD e volume di gioco senza flare`],
 nota:`Dopo il rientro mantenere forza del polpaccio ed esposizione regolare a salti e corsa.`},
-f:[[`Martin et al. 2018 – linea guida JOSPT sulla tendinopatia achillea del tratto medio`,`Martin 2018 midportion Achilles tendinopathy clinical practice guideline JOSPT`],
- [`Silbernagel e Crossley 2015 – programma di rientro allo sport`,`Silbernagel Crossley 2015 return to sport program midportion Achilles tendinopathy`]]});
+f:[[`Martin et al. 2018 – linea guida JOSPT sulla tendinopatia achillea del tratto medio`,`Martin 2018 midportion Achilles tendinopathy clinical practice guideline JOSPT`,`PMID 29712543`],
+ [`Silbernagel e Crossley 2015 – programma di rientro allo sport`,`Silbernagel Crossley 2015 return to sport program midportion Achilles tendinopathy`,`PMID 26390272`]]});
 
 OLD.push({id:`achille-rottura`,d:`Caviglia`,t:`Rottura del tendine d'Achille e percorso post-riparazione`,
 sub:``,
@@ -149,7 +149,7 @@ c:[[`Cammino e ROM`,`Cammino normale e WBLT bilaterale`,`ROM simile al lato sano
 pre:[`Allenamento completo tollerato`,
  `Clearance del chirurgo prima del contatto`],
 nota:`Forza e lunghezza del tendine possono restare diverse dal lato sano anche dopo il rientro: mantenere calf raise con carico pesante nel programma.`},
-f:[[`Willits et al. 2010 – RCT chirurgia vs gestione funzionale con carico precoce`,`Willits 2010 operative versus nonoperative Achilles tendon rupture accelerated functional rehabilitation`],
+f:[[`Willits et al. 2010 – RCT chirurgia vs gestione funzionale con carico precoce`,`Willits 2010 operative versus nonoperative Achilles tendon rupture accelerated functional rehabilitation`,`PMID 21037028`],
  [`Revisione sul ritorno allo sport dopo rottura dell'Achille (autore da identificare)`,`Achilles tendon rupture return to sport rehabilitation systematic review`]]});
 
 OLD.push({id:`rotuleo-tendinopatia`,d:`Ginocchio`,t:`Tendinopatia rotulea`,
@@ -185,8 +185,8 @@ c:[[`Funzione e sintomi`,`VISA-P`,`In miglioramento; nessuna soglia universale p
 pre:[`Allenamento completo tollerato`,
  `Sprint, COD e salti del ruolo senza flare`],
 nota:`Dopo il rientro mantenere forza 2 volte/settimana ed esposizione regolare a salti e sprint.`},
-f:[[`Breda et al. 2021 – RCT carico progressivo fino a energy storage`,`Breda 2021 patellar tendinopathy progressive tendon loading randomised trial`],
- [`Kongsgaard et al. 2009 – RCT HSR vs eccentrico vs corticosteroidi`,`Kongsgaard 2009 heavy slow resistance patellar tendinopathy`]]});
+f:[[`Breda et al. 2021 – RCT carico progressivo fino a energy storage`,`Breda 2021 patellar tendinopathy progressive tendon loading randomised trial`,`PMID 33219115`],
+ [`Kongsgaard et al. 2009 – RCT HSR vs eccentrico vs corticosteroidi`,`Kongsgaard 2009 heavy slow resistance patellar tendinopathy`,`PMID 19793213`]]});
 
 OLD.push({id:`lca-ricostruzione`,d:`Ginocchio`,t:`Ricostruzione del legamento crociato anteriore`,
 sub:``,
@@ -222,9 +222,9 @@ pre:[`Allenamento completo senza reazioni del ginocchio`,
  `Tempo e batteria funzionale entrambi soddisfatti (nel rugby generalmente ≥9-12 mesi)`,
  `Decisione condivisa tra fisioterapista, medico, atleta e staff prima del contatto`],
 nota:`Wiggins 2016 (da verificare): seconda lesione di LCA circa 23% nei giovani <25 anni che rientrano allo sport, ipsilaterale e controlaterale insieme. Mantenere forza e prevenzione nel lungo periodo.`},
-f:[[`Kotsifaki et al. 2023 – linea guida Aspetar, criteri oggettivi`,`Kotsifaki 2023 Aspetar clinical practice guideline rehabilitation anterior cruciate ligament`],
- [`Grindem et al. 2016 – coorte Delaware-Oslo`,`Grindem 2016 simple decision rules reduce reinjury risk after anterior cruciate ligament reconstruction`],
- [`Wiggins et al. 2016 – seconda lesione nei giovani (metanalisi)`,`Wiggins 2016 risk of secondary injury younger athletes after ACL reconstruction meta-analysis`]]});
+f:[[`Kotsifaki et al. 2023 – linea guida Aspetar, criteri oggettivi`,`Kotsifaki 2023 Aspetar clinical practice guideline rehabilitation anterior cruciate ligament`,`PMID 36731908`],
+ [`Grindem et al. 2016 – coorte Delaware-Oslo`,`Grindem 2016 simple decision rules reduce reinjury risk after anterior cruciate ligament reconstruction`,`PMID 27162233`],
+ [`Wiggins et al. 2016 – seconda lesione nei giovani (metanalisi)`,`Wiggins 2016 risk of secondary injury younger athletes after ACL reconstruction meta-analysis`,`PMID 26772611`]]});
 
 OLD.push({id:`hamstring-acuta`,d:`Muscoli`,t:`Lesione acuta degli hamstring`,
 sub:``,
@@ -259,8 +259,8 @@ pre:[`Allenamento completo di squadra tollerato`,
  `Risposta stabile a 24 h dopo sprint`,
  `Nessun singolo test di forza usato come unica clearance`],
 nota:`Tempi: settimane per lesioni lievi, mesi per avulsioni o lesioni con componente tendinea. Eccentrico e sprint restano nel programma come prevenzione.`},
-f:[[`Martin et al. 2022 – linea guida clinica JOSPT hamstring`,`Martin 2022 hamstring muscle strain injury clinical practice guideline`],
- [`van Dyk et al. 2019 – Nordic e prevenzione (metanalisi)`,`van Dyk 2019 Nordic hamstring exercise injury prevention meta-analysis`]]});
+f:[[`Martin et al. 2022 – linea guida clinica JOSPT hamstring`,`Martin 2022 hamstring muscle strain injury clinical practice guideline`,`PMID 35164536`],
+ [`van Dyk et al. 2019 – Nordic e prevenzione (metanalisi)`,`van Dyk 2019 Nordic hamstring exercise injury prevention meta-analysis`,`PMID 30808663`]]});
 
 OLD.push({id:`hamstring-prossimale`,d:`Muscoli`,t:`Tendinopatia prossimale degli hamstring`,
 sub:``,
@@ -296,8 +296,8 @@ c:[[`Forza`,`HHD flessione del ginocchio ed estensione d'anca`,`≥90-95% con va
 pre:[`Allenamento completo tollerato`,
  `Nessun cut-off validato per il rugby: decisione clinica condivisa`],
 nota:`Non c'è un tasso unico di recidiva. Mantenere carico lento ed esposizione progressiva alla velocità.`},
-f:[[`Nasser et al. 2021 – revisione sistematica, prove comparative insufficienti`,`Nasser 2021 proximal hamstring tendinopathy systematic review`],
- [`Martin et al. 2022 – linea guida JOSPT (fonte per la lesione muscolare, trasferimento parziale)`,`Martin 2022 hamstring muscle strain injury clinical practice guideline`]]});
+f:[[`Nasser et al. 2021 – revisione sistematica, prove comparative insufficienti`,`Nasser 2021 proximal hamstring tendinopathy systematic review`,`PMID 33842025`],
+ [`Martin et al. 2022 – linea guida JOSPT (fonte per la lesione muscolare, trasferimento parziale)`,`Martin 2022 hamstring muscle strain injury clinical practice guideline`,`PMID 35164536`]]});
 
 OLD.push({id:`polpaccio-muscolare`,d:`Muscoli`,t:`Lesione muscolare del gastrocnemio e del soleo`,
 sub:``,
@@ -333,8 +333,8 @@ c:[[`Forza e lavoro`,`Heel raise standardizzato e HHD a ginocchio esteso e fless
 pre:[`Allenamento completo tollerato`,
  `Eventuale TVP o rottura del tendine escluse`],
 nota:`La recidiva è variabile: non c'è un tasso unico. Mantenere carico pesante e soleo sotto fatica.`},
-f:[[`Green et al. 2022 – studio qualitativo su 20 esperti (progressione per il polpaccio)`,`Green 2022 calf muscle injury rehabilitation expert qualitative study`],
- [`Martin et al. 2022 – linea guida JOSPT (fonte hamstring, trasferimento parziale)`,`Martin 2022 hamstring muscle strain injury clinical practice guideline`]]});
+f:[[`Green et al. 2022 – studio qualitativo su 20 esperti (progressione per il polpaccio)`,`Green 2022 calf muscle injury rehabilitation expert qualitative study`,`PMID 35032233`],
+ [`Martin et al. 2022 – linea guida JOSPT (fonte hamstring, trasferimento parziale)`,`Martin 2022 hamstring muscle strain injury clinical practice guideline`,`PMID 35164536`]]});
 
 OLD.push({id:`spalla-instab-ant`,d:`Spalla`,t:`Instabilità anteriore di spalla (conservativa)`,
 sub:``,
@@ -370,7 +370,7 @@ pre:[`Progressione completa su gesti di campo: passaggi, cadute guidate, sacco, 
  `Allenamento pieno tollerato con risposta stabile a 24 h`],
 nota:`Il rischio di recidiva è maggiore nei giovani. Mantenere forza di cuffia e appoggi nel programma.`},
 f:[[`Olds et al. 2015 – fattori di recidiva dopo prima lussazione (revisione sistematica)`,`Olds 2015 anterior shoulder dislocation recurrence systematic review meta-analysis`],
- [`Ardern et al. 2016 – consensus return to sport`,`Ardern 2016 consensus statement return to sport`]]});
+ [`Ardern et al. 2016 – consensus return to sport`,`Ardern 2016 consensus statement return to sport`,`PMID 27226389`]]});
 
 OLD.push({id:`spalla-bankart`,d:`Spalla`,t:`Riparazione artroscopica di Bankart`,
 sub:``,
@@ -405,8 +405,8 @@ c:[[`ROM e apprensione`,`ROM funzionale, test di apprensione`,`ROM adeguato al g
 pre:[`Contatto introdotto in modo graduato`,
  `Allenamento completo tollerato con risposta stabile a 24 h`],
 nota:`Rossi 2021 (da verificare): recidiva 20% dopo Bankart contro 4% dopo Latarjet in una coorte retrospettiva di 130 rugbisti con perdita glenoidea <20%. Dato osservazionale, non un confronto randomizzato. Prevenzione: cuffia e appoggi 2 volte/settimana.`},
-f:[[`Rossi et al. 2021 – recidiva Bankart vs Latarjet nel rugby`,`Rossi 2021 rugby Bankart Latarjet recurrence`],
- [`Schwank et al. 2022 – consensus sulla valutazione della spalla`,`Schwank 2022 shoulder consensus return to sport`]]});
+f:[[`Rossi et al. 2021 – recidiva Bankart vs Latarjet nel rugby`,`Rossi 2021 rugby Bankart Latarjet recurrence`,`PMID 33606555`],
+ [`Schwank et al. 2022 – consenso di Berna su prevenzione, riabilitazione e ritorno allo sport nella spalla dell'atleta (JOSPT)`,`Schwank 2022 shoulder consensus return to sport`,`PMID 34972489`]]});
 
 OLD.push({id:`spalla-ac`,d:`Spalla`,t:`Distorsione acromion-claveare`,
 sub:``,
@@ -443,7 +443,7 @@ pre:[`Allenamento completo tollerato`,
  `Protezione regolamentare valutata con lo staff`,
  `Clearance chirurgica se ricostruita`],
 nota:`Non c'è una percentuale generale affidabile di recidiva nel rugby. Prevenzione: tecnica del placcaggio e forza di spalla.`},
-f:[[`LeVasseur et al. 2021 – revisione e proposta riabilitativa`,`LeVasseur 2021 acromioclavicular joint injuries rehabilitation`],
+f:[[`LeVasseur et al. 2021 – revisione e proposta riabilitativa`,`LeVasseur 2021 acromioclavicular joint injuries rehabilitation`,`PMID 34093044`],
  [`Revisione sulla gestione delle lesioni acromion-claveari (autore da identificare)`,`acromioclavicular joint injury Rockwood management review`]]});
 
 OLD.push({id:`spalla-cuffia`,d:`Spalla`,t:`Tendinopatia della cuffia dei rotatori`,
@@ -519,5 +519,5 @@ pre:[`Allenamento completo tollerato`,
  `Eventuali lesioni associate (cuffia, SLAP) valutate separatamente`],
 nota:`Non c'è un tasso unico di recidiva; i tempi dipendono dalle lesioni associate.`},
 f:[[`Revisione sulla tendinopatia del capo lungo del bicipite (autore da identificare)`,`long head biceps tendinopathy management exercise review`],
- [`Michener et al. 2018 – NATA position statement sulle lesioni SLAP`,`Michener 2018 NATA position statement SLAP`]]});
+ [`Michener et al. 2018 – NATA position statement sulle lesioni SLAP negli atleti overhead (J Athl Train)`,`Michener 2018 NATA position statement SLAP`,`PMID 29624450`]]});
 
