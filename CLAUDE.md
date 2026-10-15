@@ -8,7 +8,7 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 - `js/fonti-corso.js`: etichette delle fonti (lezioni UNIBS, testi). Si carica PER PRIMO.
 - `js/schede-base.js`: schede di base e funzione `M()` che le estende.
 - `js/schede-<sezione>.js`: le schede, un file per sezione (spalla, gomito, mano, anca, ginocchio, caviglia, colonna, muscoli, principi).
-- `js/app.js`: logica. Contiene `DC` (elenco sezioni con colore, emoji, descrizione).
+- `js/app.js`: logica. Contiene `DC` (elenco sezioni con colore, sigla di due lettere nel campo `e`, descrizione). Niente emoji nell'interfaccia.
 - L'ordine dei `<script>` in `index.html` è vincolante: fonti → base → sezioni → app.
 
 ## Regole per ogni scheda

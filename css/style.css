@@ -30,7 +30,7 @@ body.det #nav{overflow:visible;min-height:52px;align-items:center}
 body.det #q{display:none}
 .dh{padding-top:14px}
 .dk{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:.94rem;font-weight:500}
-.dk .ri{width:24px;height:24px;border-radius:6px;font-size:.85rem}
+.dk .ri{width:24px;height:24px;border-radius:6px;font-size:.66rem}
 .dh h1{font-size:1.75rem;line-height:1.15;font-weight:700;letter-spacing:-.02em;margin:8px 0 6px}
 .dh h1 .nw{vertical-align:6px}
 article.sc{margin-top:12px}
@@ -58,8 +58,9 @@ input[type=search]:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--ac
 .gh{font-size:.81rem;color:var(--mu);text-transform:uppercase;letter-spacing:.02em;margin:22px 16px 7px}
 .grp{background:var(--card);border-radius:12px;overflow:hidden;overflow:clip;margin:8px 0}
 .row{display:flex;align-items:center;gap:12px;padding:0 0 0 16px;color:var(--tx);text-decoration:none;cursor:pointer}
-.ri{flex:0 0 auto;width:30px;height:30px;border-radius:7px;background:color-mix(in srgb,var(--dc) 24%,var(--card));display:grid;place-items:center;font-size:1.05rem;line-height:1}
-.ri.lg{width:44px;height:44px;border-radius:10px;font-size:1.5rem;margin-top:12px}
+/* Sigla della sezione: due lettere bianche su colore pieno */
+.ri{flex:0 0 auto;width:30px;height:30px;border-radius:7px;background:var(--dc);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:700;letter-spacing:.01em;line-height:1}
+.ri.lg{width:44px;height:44px;border-radius:10px;font-size:1.1rem;margin-top:12px}
 .rw{flex:1;min-width:0;display:flex;align-items:center;gap:8px;min-height:48px;padding:6px 16px 6px 0}
 .row+.row .rw{border-top:.5px solid var(--ln)}
 .sr .rw{min-height:52px;padding-top:10px;padding-bottom:10px}.sr .rw b{font-size:1.0625rem;line-height:1.3}

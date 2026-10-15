@@ -2,15 +2,15 @@
 OLD.length=0;
 
 const DC={
-Spalla:{c:'#2563eb',e:'💪',l:'Spalla',t:'Instabilità, cuffia, AC, capsulite, protesi e fratture'},
-Gomito:{c:'#7c3aed',e:'🦾',l:'Gomito',t:'Traumi, rigidità, epicondilalgia ed epitrocleite'},
-Mano:{c:'#0e7490',e:'✋',l:'Mano e polso',t:'Fratture, legamenti, TFCC, Dupuytren, rizoartrosi'},
-Anca:{c:'#dc2626',e:'🦴',l:'Anca',t:'Coxartrosi e protesi, FAI, fratture di femore, dolore laterale'},
-Ginocchio:{c:'#047857',e:'🦵',l:'Ginocchio',t:'LCA, collaterali, LCP, menischi, artrosi, femoro-rotulea'},
-Caviglia:{c:'#b45309',e:'🦶',l:'Caviglia e piede',t:'Distorsioni, sindesmosi, Achille, fascite plantare'},
-Colonna:{c:'#475569',e:'🧍',l:'Colonna',t:'Low back pain, radicolopatia, stenosi, scoliosi, cervicobrachialgia'},
-Muscoli:{c:'#db2777',e:'🔥',l:'Lesioni muscolari',t:'Hamstring e polpaccio, fino al ritorno allo sprint'},
-Principi:{c:'#4d7c0f',e:'🧭',l:'Principi',t:'Dolore, dosaggio della forza, AMI, edema e cicatrice'}};
+Spalla:{c:'#2563eb',e:'Sp',l:'Spalla',t:'Instabilità, cuffia, AC, capsulite, protesi e fratture'},
+Gomito:{c:'#7c3aed',e:'Go',l:'Gomito',t:'Traumi, rigidità, epicondilalgia ed epitrocleite'},
+Mano:{c:'#0e7490',e:'Ma',l:'Mano e polso',t:'Fratture, legamenti, TFCC, Dupuytren, rizoartrosi'},
+Anca:{c:'#dc2626',e:'An',l:'Anca',t:'Coxartrosi e protesi, FAI, fratture di femore, dolore laterale'},
+Ginocchio:{c:'#047857',e:'Gi',l:'Ginocchio',t:'LCA, collaterali, LCP, menischi, artrosi, femoro-rotulea'},
+Caviglia:{c:'#b45309',e:'Ca',l:'Caviglia e piede',t:'Distorsioni, sindesmosi, Achille, fascite plantare'},
+Colonna:{c:'#475569',e:'Co',l:'Colonna',t:'Low back pain, radicolopatia, stenosi, scoliosi, cervicobrachialgia'},
+Muscoli:{c:'#db2777',e:'Mu',l:'Lesioni muscolari',t:'Hamstring e polpaccio, fino al ritorno allo sprint'},
+Principi:{c:'#4d7c0f',e:'Pr',l:'Principi',t:'Dolore, dosaggio della forza, AMI, edema e cicatrice'}};
 const KN={i:'Isometrico',f:'Forza',p:'Pliometria / velocità',c:'Controllo',m:'Mobilità'};
 const P=t=>'https://pubmed.ncbi.nlm.nih.gov/?term='+encodeURIComponent(t);
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
@@ -34,7 +34,7 @@ function card(s){
 const fl=(s.red||[]).map(x=>`<div class='fl r'><b>Red flag</b>${esc(x)}</div>`).join('')+(s.yel||[]).map(x=>`<div class='fl y'><b>Yellow flag</b>${esc(x)}</div>`).join('');
 let b='';
 if(s.key)b+=`<div class='keyb'><b>Punti chiave</b>${L(s.key)}</div>`;
-if(s.mat)b+=`<div class='mat'>${s.mat.map(m=>`<span>📚 ${esc(m)}</span>`).join('')}</div>`;
+if(s.mat)b+=`<div class='mat'>${s.mat.map(m=>`<span>${esc(m)}</span>`).join('')}</div>`;
 b+=sec('Inquadramento',s.inq?L(s.inq):'');
 b+=sec('Classificazioni e tabelle',s.tab?s.tab.map(tab).join(''):'');
 (s.sez||[]).forEach(x=>{b+=sec(esc(x.h),(x.b?L(x.b):'')+(x.t?x.t.map(tab).join(''):''))});
@@ -72,7 +72,7 @@ cbar.style.setProperty('--dc',DC[s.d].c);
 cbar.innerHTML=`<div class='cb-in'><div class='cb-s'>${[...cur.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}
 function lista(){const n=d=>S.filter(s=>s.d===d).length;
 document.body.classList.remove('det');cur=null;cbar.classList.remove('on');nav.classList.remove('tt');
-nav.innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>🏠 Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' data-go='${k}'>${DC[k].e} ${DC[k].l}</a>`).join('');
+nav.innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' data-go='${k}'>${DC[k].l}</a>`).join('');
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
 tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='--dc:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
