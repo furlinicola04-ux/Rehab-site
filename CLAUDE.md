@@ -24,6 +24,13 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 - Distingui ciò che è validato in letteratura da ciò che è una proposta operativa (serie, ripetizioni, RPE, soglie).
 - L'utente verifica le fonti su PubMed e spunta la casella nel sito.
 
+## Integrare nuovi studi (PDF)
+- L'utente mette i PDF in `/Users/nicolafurli/Documents/studi-rehab` (FUORI dal sito). I PDF non vanno mai copiati nella cartella del sito: è pubblico.
+- Claude legge il PDF e integra le informazioni nelle schede delle patologie esistenti (inq, tst, ex, fasi, ev, rts), rielaborate con parole proprie, e aggiunge lo studio alle fonti `f` con PMID/DOI verificati su PubMed.
+- Nella scheda distinguere sempre ciò che lo studio dimostra dalle proposte operative.
+- Se lo studio contraddice contenuti già rifiniti: segnalarlo e chiedere prima di cambiarli.
+- Prima di modificare, mostrare all'utente cosa si propone di cambiare e in quali schede.
+
 ## Vincoli
 - Nessun dato di pazienti, nemmeno anonimizzati.
 - Il sito è materiale di studio: non sostituisce il giudizio clinico.
