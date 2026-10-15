@@ -29,21 +29,28 @@ function rts(r){return `${r.intro?`<p>${esc(r.intro)}</p>`:''}<div class='crit t
 function ev(a){const cl={Centrale:'r-c',Supporto:'r-s',Evitare:'r-e'};return `<div class='wrap'><table class='ev-c'><tr><th>Intervento</th><th>Ruolo</th><th>Certezza e limite</th></tr>${a.map(r=>`<tr><td>${esc(r[0])}</td><td class='${cl[r[1]]||''}'>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>`}
 function fonti(s){return s.f.map((f,i)=>{const k='v:'+s.id+i,on=ls(k)==='1';const u=f[2]?(f[2].startsWith('PMID')?'https://pubmed.ncbi.nlm.nih.gov/'+f[2].slice(4).trim()+'/':'https://doi.org/'+f[2]):P(f[1]);return `<div class='src'><input type='checkbox' id='${k}' data-k='${k}' ${on?'checked':''}><div><a href='${u}' target='_blank' rel='noopener'>${esc(f[0])}</a>${f[2]?` <span class='cm'>· ${f[2].startsWith('PMID')?esc(f[2]):'DOI'} dal materiale</span>`:''}<br><label for='${k}'>${on?'✓ verificata su PubMed':'da verificare su PubMed'}</label></div></div>`}).join('')}
 function sec(h,b){return b?`<h3>${h}</h3>${b}`:''}
-// Corpo completo della scheda (pagina della scheda)
+// Capitolo di ogni tabella o sezione extra (per titolo); una scheda nuova può indicarlo con il campo z.
+// I Inquadramento · F Flag · V Valutazione · T Trattamento ed evidenza · P Fasi · E Esercizi · R Ritorno · X Prevenzione · C Caso clinico
+const ZT={"Cuffia dei rotatori e innervazione": "I", "Patologie specifiche e non specifiche (lezione)": "I", "Classificazione (lezione)": "I", "Tipi di instabilità": "I", "Classificazione di Rockwood (sintesi)": "I", "Tipi di lesione di cuffia": "I", "Primaria vs secondaria (lezione)": "I", "Fasi cliniche": "I", "Fratture della base del I metacarpo": "I", "Stadiazione di Tubiana": "I", "Stadi di Eaton": "I", "Muscoli dell'anca (lezione)": "I", "Entità cliniche (Doha 2015)": "I", "Confronto": "I", "Classificazione clinica (lezione)": "I", "Fattori di rischio e prognosi (lezione)": "I", "Imaging nei asintomatici (Brinjikji 2015)": "I", "Tipi di dolore all'arto inferiore (lezione)": "I", "Definizioni (lezione)": "I", "Stadi alla RM/TC (classificazione di Sairyo, sintesi)": "I", "Gradi di Meyerding (spondilolistesi)": "I", "Sprint-type vs stretch-type (Askling, da Bisciotti)": "I", "Classificazioni": "I", "Hamstring syndrome (Bisciotti)": "I", "Meccanismi dell'analgesia da esercizio (Sluka 2018)": "I", "Apprendimento dell'evitamento (lezione LBP)": "I", "Fattori prognostici (lezione Spalla)": "I", "Red flags (lezione)": "F", "Ottawa knee rules (RX se almeno uno)": "F", "Frattura vertebrale (lezione)": "F", "Neoplasia (lezione)": "F", "Quando prudenza": "F", "ROM fisiologici (lezione)": "V", "Scale di valutazione": "V", "Esame clinico in sequenza (lezione)": "V", "Valutazione (lezione)": "V", "Screening coper (Fitzgerald 2000)": "V", "Cluster di Lowery (2006)": "V", "Deficit di estensione vs flessione (lezione)": "V", "Esame neurologico (lezione)": "V", "Valutazione soggettiva e fisica (lezione)": "V", "Claudicatio neurogena vs vascolare": "V", "Equilibrio sagittale con filo a piombo (Negrini)": "V", "Esame clinico (Hickey 2022, Bisciotti)": "V", "Strumenti per monitorare": "V", "Lesione acuta vs dolore riferito (Brukner e Khan, da Bisciotti)": "V", "Stroke test (versamento)": "V", "Anatomica vs inversa": "T", "Gesso vs tutore termoplastico (lezione)": "T", "Scelta del graft (lezione)": "T", "Dati KANON sulla guarigione (Filbay 2022, abstract)": "T", "Tipi di protesi": "T", "Raccomandazioni JOSPT (lezione)": "T", "Chirurgico vs conservativo (lezione)": "T", "Credenze che peggiorano disabilità e recupero (O'Sullivan 2014)": "T", "Gestione (lezione e linee guida)": "T", "Corsetto (lezione)": "T", "Chirurgia e adulto (lezione)": "T", "Tappe dopo stabilizzazione (lezione, esempio remplissage)": "P", "Precauzioni nei primi 3 mesi (lezione, accesso postero-laterale)": "P", "Protocollo post-operatorio grado III (Logan 2016, lezione)": "P", "Dopo sutura meniscale (Wedge 2021-2022, lezione)": "P", "LCA + sutura meniscale (Delaware, lezione)": "P", "Le 6 fasi riabilitative (lezione)": "P", "Concessione del carico post-chirurgica (lezione)": "P", "Fasi: chirurgico vs conservativo (lezione)": "P", "Dopo riparazione prossimale (Bisciotti)": "P", "Gonfiore": "E", "Cicatrice": "E", "Mobilità": "E", "Forza e presa": "E", "Tecniche manuali (lezione)": "E", "Inibizione artrogena (AMI) ed estensione": "E", "Dosaggio della forza (lezione)": "E", "Progressione per l'anca (lezione)": "E", "Autocorrezione SEAS: i 3 piani": "E", "Dosaggio SEAS (lezione)": "E", "Regole di monitoraggio del dolore": "E", "Attività fisica raccomandata (OMS, dalla lezione LBP)": "E", "Parametri (lezione Ginocchio)": "E", "Catena chiusa vs aperta": "E", "Isometrico (lezione Anca)": "E", "Progressioni di esempio (lezione Ginocchio)": "E", "Parametri NMES (Maffiuletti 2010, lezione)": "E", "Deficit di estensione: protocollo in 3 step (Delaloye 2018, SANTI)": "E", "Esempi di applicazione": "E", "Criteri per il ritorno alla corsa (lezione)": "R", "Batteria di ritorno allo sport (lezione)": "R", "Batteria RTS dopo sutura (Wedge)": "R", "Corsa progressiva in 3 stadi (Hickey 2022)": "R", "Prevenzione": "X", "Caso clinico della lezione": "C"};
+// Corpo completo della scheda, nell'ordine del ragionamento clinico: le tabelle e le sezioni extra diventano sottotitoli dentro il loro capitolo
 function card(s){
 const fl=(s.red||[]).map(x=>`<div class='fl r'><b>Red flag</b>${esc(x)}</div>`).join('')+(s.yel||[]).map(x=>`<div class='fl y'><b>Yellow flag</b>${esc(x)}</div>`).join('');
+const X={I:'',F:'',V:'',T:'',P:'',E:'',R:'',X:'',C:''},z=(o,t)=>o.z||ZT[t]||'I';
+(s.tab||[]).forEach(t=>{X[z(t,t.t)]+=tab(t)});
+(s.sez||[]).forEach(x=>{X[z(x,x.h)]+=(x.h==='Prevenzione'?'':`<div class='tt'>${esc(x.h)}</div>`)+(x.b?L(x.b):'')+(x.t?x.t.map(tab).join(''):'')});
+const st=(t,h)=>h&&t?`<div class='tt'>${t}</div>`+h:h;
 let b='';
 if(s.key)b+=`<div class='keyb'><b>Punti chiave</b>${L(s.key)}</div>`;
 if(s.mat)b+=`<div class='mat'>${s.mat.map(m=>`<span>${esc(m)}</span>`).join('')}</div>`;
-b+=sec('Inquadramento',s.inq?L(s.inq):'');
-b+=sec('Classificazioni e tabelle',s.tab?s.tab.map(tab).join(''):'');
-(s.sez||[]).forEach(x=>{b+=sec(esc(x.h),(x.b?L(x.b):'')+(x.t?x.t.map(tab).join(''):''))});
-b+=sec('Red e yellow flags',fl?`<div class='flg'>${fl}</div>`:'');
-b+=sec('Test e valutazione',s.tst?tsts(s.tst):'');
-b+=sec('Esercizi e carichi',s.ex&&s.ex.length?exs(s.ex):'');
-b+=sec('Percorso per fasi',s.fasi?fasi(s):'');
-b+=sec('Trattamenti ed evidenza',s.ev?ev(s.ev):'');
-b+=sec('Criteri di rientro',s.rts?rts(s.rts):'');
+b+=sec('Inquadramento',(s.inq?L(s.inq):'')+X.I);
+b+=sec('Red e yellow flags',(fl?`<div class='flg'>${fl}</div>`:'')+X.F);
+b+=sec('Valutazione',st(X.V&&'Test clinici',s.tst?tsts(s.tst):'')+X.V);
+b+=sec('Trattamento ed evidenza',X.T+st(X.T&&'Cosa funziona, cosa evitare',s.ev?ev(s.ev):''));
+b+=sec('Percorso per fasi',X.P+st(X.P&&'Fasi',s.fasi?fasi(s):''));
+b+=sec('Esercizi e carichi',X.E+st(X.E&&'Esercizi',s.ex&&s.ex.length?exs(s.ex):''));
+b+=sec('Ritorno alla corsa e allo sport',X.R+st(X.R&&'Criteri di rientro',s.rts?rts(s.rts):''));
+b+=sec('Prevenzione',X.X);
+b+=sec('Caso clinico',X.C);
 b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
 return b}
 // Riga dell'elenco: tocco → pagina della scheda. Nella ricerca globale mostra anche la sezione.
@@ -59,7 +66,7 @@ document.getElementById('tiles').style.display=home?'':'none';
 const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
 list.innerHTML=home?'':(r.length?`<div class='lst'>${r.map(s=>row(s,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>")}
 function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`${ok} di ${tot}`}
-const SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Test e valutazione':'Test','Esercizi e carichi':'Esercizi','Percorso per fasi':'Fasi','Trattamenti ed evidenza':'Evidenza','Criteri di rientro':'Rientro'};
+const SH={'Red e yellow flags':'Flag','Trattamento ed evidenza':'Trattamento','Percorso per fasi':'Fasi','Esercizi e carichi':'Esercizi','Ritorno alla corsa e allo sport':'Ritorno','Caso clinico':'Caso'};
 // Pagina della scheda: barra con "‹ Indietro" e titolo piccolo, titolo grande, corpo; la fila dei capitoli compare quando il titolo grande esce dallo schermo
 function detail(s,from){const back=from==='Tutti'?'Home':DC[from].l;
 document.body.classList.add('det');

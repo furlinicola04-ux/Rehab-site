@@ -102,7 +102,9 @@ table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
 th,td{border:0;border-bottom:.5px solid var(--ln);padding:9px 10px 9px 0;text-align:left;vertical-align:top}
 th{font-size:.78rem;font-weight:600;color:var(--mu);padding-top:4px}
 tr:last-child td{border-bottom:0}
-.tt{font-weight:600;font-size:.94rem;margin:14px 0 2px}
+/* Sottotitolo dentro un capitolo (tabelle e sezioni extra) */
+.tt{font-weight:650;font-size:1.02rem;margin:20px 0 4px}
+h3+.tt{margin-top:6px}
 .crit{display:grid;gap:10px;margin:8px 0}@media(min-width:700px){.crit.two{grid-template-columns:1fr 1fr}}
 .cr,.ex,.pre,table.fz tr{background:var(--card2);border-radius:12px}
 .cr{padding:12px 14px}.cr>b{font-weight:600}

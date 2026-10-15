@@ -14,6 +14,8 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 ## Regole per ogni scheda
 - Campi: inquadramento (`inq`), red/yellow flag (`red`, `yel`), test clinici (`tst`), esercizi (`ex`), fasi con obiettivi ed esercizi collegati (`fasi`), evidenza (`ev`), criteri di rientro (`rts`), fonti (`f`).
 - Collegare sempre fasi, obiettivi ed esercizi (tabella/matrice).
+- Ordine dei capitoli nella pagina (fisso, in `card()` di `js/app.js`): Punti chiave → Inquadramento → Red e yellow flags → Valutazione → Trattamento ed evidenza → Percorso per fasi → Esercizi e carichi → Ritorno alla corsa e allo sport → Prevenzione → Caso clinico → Fonti.
+- Tabelle (`tab`) e sezioni extra (`sez`) diventano sottotitoli dentro il loro capitolo: la mappa per titolo è `ZT` in `js/app.js`. Per una tabella o sezione nuova aggiungere il campo `z` (I, F, V, T, P, E, R, X, C) oppure il titolo in `ZT`; senza, finisce in Inquadramento.
 - Criteri di rientro al rugby: spiegati e schematizzati, UN criterio per blocco, mai tutti di seguito sulla stessa riga.
 - Ogni `id` è unico. `d` deve essere una chiave di `DC`.
 - Grafica colorata e leggibile da telefono; non rompere il tema scuro.
