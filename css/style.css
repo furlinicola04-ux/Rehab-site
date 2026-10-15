@@ -1,8 +1,8 @@
-/* Grafica in stile iOS con palette lavanda: sfondo lavanda, gruppi bianchi arrotondati, riquadri lilla, verde bosco come colore d'azione.
+/* Grafica in stile iOS, neutra e professionale: grigio chiaro e bianco, un solo accento blu profondo, colori di sezione smorzati.
    --acf: sfondo pieno sotto testo bianco. --dtp: quanta tinta di sezione tenere nel testo colorato (il resto è --tx). */
-:root{--bg:#e5def4;--card:#fff;--card2:#f0ecfa;--tx:#1d1a26;--mu:#625d73;--ln:#ddd6ee;--fill:rgba(124,104,196,.11);--hl:#ebe6f8;--ac:#2b6b57;--acf:#2b6b57;--red:#c0000f;--yel:#8a6100;--ok:#2b6b57;--dtp:85%;--mat:rgba(229,222,244,.8);--lil:#e4dcfa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121018;--card:#1c1a24;--card2:#292534;--tx:#f4f1fa;--mu:#a7a1bb;--ln:#363046;--fill:rgba(150,132,214,.2);--hl:#292534;--ac:#7dd3b4;--acf:#2b6b57;--red:#ff6961;--yel:#ffd426;--ok:#7dd3b4;--dtp:62%;--mat:rgba(18,16,24,.8);--lil:#2f2945}}
-:root[data-theme="dark"]{--bg:#121018;--card:#1c1a24;--card2:#292534;--tx:#f4f1fa;--mu:#a7a1bb;--ln:#363046;--fill:rgba(150,132,214,.2);--hl:#292534;--ac:#7dd3b4;--acf:#2b6b57;--red:#ff6961;--yel:#ffd426;--ok:#7dd3b4;--dtp:62%;--mat:rgba(18,16,24,.8);--lil:#2f2945}
+:root{--bg:#f2f3f5;--card:#fff;--card2:#f2f3f5;--tx:#1d1d1f;--mu:#5f6368;--ln:#dcdde1;--fill:rgba(60,64,72,.08);--hl:#ebecef;--ac:#24509a;--acf:#24509a;--red:#c0000f;--yel:#8a6100;--ok:#1d7a35;--dtp:85%;--mat:rgba(242,243,245,.82);--lil:#eaf0f8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111214;--card:#1c1d20;--card2:#2a2b2f;--tx:#f2f3f5;--mu:#a1a3a8;--ln:#34363b;--fill:rgba(160,165,175,.16);--hl:#2a2b2f;--ac:#8db4ff;--acf:#24509a;--red:#ff6961;--yel:#ffd426;--ok:#5fd37f;--dtp:62%;--mat:rgba(17,18,20,.82);--lil:#1f2733}}
+:root[data-theme="dark"]{--bg:#111214;--card:#1c1d20;--card2:#2a2b2f;--tx:#f2f3f5;--mu:#a1a3a8;--ln:#34363b;--fill:rgba(160,165,175,.16);--hl:#2a2b2f;--ac:#8db4ff;--acf:#24509a;--red:#ff6961;--yel:#ffd426;--ok:#5fd37f;--dtp:62%;--mat:rgba(17,18,20,.82);--lil:#1f2733}
 *{box-sizing:border-box}
 /* Tocco da app: niente flash grigio di sistema, niente attesa del doppio tocco, niente selezione del testo dei controlli */
 html{-webkit-tap-highlight-color:transparent}
@@ -28,6 +28,13 @@ body.det #nav{overflow:visible;min-height:52px;align-items:center}
 .nt{position:absolute;left:50%;transform:translateX(-50%);max-width:calc(100% - 112px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;font-size:1.0625rem;opacity:0;transition:opacity 150ms ease-out;pointer-events:none}
 #nav.tt .nt{opacity:1}
 body.det #q{display:none}
+body.home #nav{display:none}
+body:not(.det):not(.home) #nav{min-height:52px;align-items:center;overflow:visible}
+/* Patologie di una sezione: una card per patologia, ben separate */
+.lst{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.lst .sr{background:var(--card);border-radius:12px;padding-left:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.lst .sr .rw{border-top:0!important;min-height:60px;padding-top:14px;padding-bottom:14px}
+.lst .sr .rw b{font-weight:600}
 .dh{padding-top:14px}
 .dk{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:.94rem;font-weight:500}
 .dk .ri{width:24px;height:24px;border-radius:6px;font-size:.66rem}
@@ -59,8 +66,8 @@ input[type=search]:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--ac
 .grp{background:var(--card);border-radius:12px;overflow:hidden;overflow:clip;margin:8px 0}
 .row{display:flex;align-items:center;gap:12px;padding:0 0 0 16px;color:var(--tx);text-decoration:none;cursor:pointer}
 /* Sigla della sezione: due lettere bianche su colore pieno */
-.ri{flex:0 0 auto;width:30px;height:30px;border-radius:7px;background:var(--dc);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:700;letter-spacing:.01em;line-height:1}
-.ri.lg{width:44px;height:44px;border-radius:10px;font-size:1.1rem;margin-top:12px}
+.ri{flex:0 0 auto;width:30px;height:30px;border-radius:7px;background:color-mix(in srgb,var(--dc) 60%,#4b5563);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:700;letter-spacing:.01em;line-height:1}
+.ri.big{width:44px;height:44px;border-radius:10px;font-size:1.1rem;margin-top:12px}
 .rw{flex:1;min-width:0;display:flex;align-items:center;gap:8px;min-height:48px;padding:6px 16px 6px 0}
 .row+.row .rw{border-top:.5px solid var(--ln)}
 .sr .rw{min-height:52px;padding-top:10px;padding-bottom:10px}.sr .rw b{font-size:1.0625rem;line-height:1.3}
@@ -71,7 +78,7 @@ input[type=search]:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--ac
 .pg{height:4px;border-radius:99px;background:var(--fill);overflow:hidden;margin-top:9px}.pg div{height:100%;background:var(--ok);border-radius:99px}
 
 /* Etichetta NUOVA */
-.nw{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.03em;color:var(--dc,var(--ac));color:color-mix(in srgb,var(--dc,var(--ac)) var(--dtp),var(--tx));background:color-mix(in srgb,var(--dc,var(--ac)) 14%,transparent);border-radius:99px;padding:2px 7px;margin-left:7px;vertical-align:2px}
+.nw{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.03em;color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent);border-radius:99px;padding:2px 7px;margin-left:7px;vertical-align:2px}
 .body{padding:2px 16px 20px}
 .body>h3:first-child,.body>.keyb:first-child{margin-top:14px}
 

@@ -57,7 +57,7 @@ function bindSrc(root){root.querySelectorAll('input[data-k]').forEach(c=>c.oncha
 function draw(){const t=q.value.trim().toLowerCase();const home=dist==='Tutti'&&!t;
 document.getElementById('tiles').style.display=home?'':'none';
 const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
-list.innerHTML=home?'':(r.length?`<div class='grp'>${r.map(s=>row(s,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>")}
+list.innerHTML=home?'':(r.length?`<div class='lst'>${r.map(s=>row(s,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>")}
 function prog(){let tot=0,ok=0;S.forEach(s=>(s.f||[]).forEach((f,i)=>{tot++;if(ls('v:'+s.id+i)==='1')ok++}));const p=document.querySelector('.pg div'),m=document.getElementById('pgt');if(p)p.style.width=(tot?Math.round(ok/tot*100):0)+'%';if(m)m.textContent=`${ok} di ${tot}`}
 const SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Test e valutazione':'Test','Esercizi e carichi':'Esercizi','Percorso per fasi':'Fasi','Trattamenti ed evidenza':'Evidenza','Criteri di rientro':'Rientro'};
 // Pagina della scheda: barra con "‹ Indietro" e titolo piccolo, titolo grande, corpo; la fila dei capitoli compare quando il titolo grande esce dallo schermo
@@ -72,12 +72,13 @@ cbar.style.setProperty('--dc',DC[s.d].c);
 cbar.innerHTML=`<div class='cb-in'><div class='cb-s'>${[...cur.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}
 function lista(){const n=d=>S.filter(s=>s.d===d).length;
 document.body.classList.remove('det');cur=null;cbar.classList.remove('on');nav.classList.remove('tt');
-nav.innerHTML=`<a class='nv ${dist==='Tutti'?'on':''}' data-go='Tutti'>Home</a>`+Object.keys(DC).map(k=>`<a class='nv ${dist===k?'on':''}' data-go='${k}'>${DC[k].l}</a>`).join('');
+// Niente menu delle sezioni: in home la barra sparisce, in una sezione resta solo "‹ Home"
+document.body.classList.toggle('home',dist==='Tutti');
+nav.innerHTML=dist==='Tutti'?'':`<button class='back' data-back aria-label='Torna alla home'><i class='bk'></i><span class='bl'>Home</span></button><span class='nt'>${esc(DC[dist].l)}</span>`;
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
 tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='--dc:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}</div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog()}
-else{hero.innerHTML=`<div class='ph'><span class='ri lg' style='--dc:${DC[dist].c}'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
-const on=nav.querySelector('.nv.on');if(on)nav.scrollLeft=on.offsetLeft-(nav.clientWidth-on.offsetWidth)/2;
+else{hero.innerHTML=`<div class='ph'><span class='ri big' style='--dc:${DC[dist].c}'>${DC[dist].e}</span><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
 q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l}
 // Transizione da app: la scheda entra da destra ed esce verso destra (stesso percorso); con "riduci movimento" solo dissolvenza
 function slide(dir){if(!dir||!document.body.animate)return;const k=RM()?[{opacity:0},{opacity:1}]:[{transform:`translateX(${dir*28}%)`,opacity:0},{transform:'none',opacity:1}];
@@ -86,17 +87,18 @@ function slide(dir){if(!dir||!document.body.animate)return;const k=RM()?[{opacit
 function parse(){const p=location.hash.replace(/^#\/?/,'').split('/').map(x=>{try{return decodeURIComponent(x)}catch(e){return ''}});
 const s=p[1]&&S.find(x=>x.id===p[1]);sid=s?s.id:null;dist=s?(history.state&&history.state.from)||s.d:(DC[p[0]]?p[0]:'Tutti')}
 function render(dir,st){if(sid){detail(S.find(x=>x.id===sid),dist);window.scrollTo(0,0)}else{lista();q.value=st&&st.q||'';draw();window.scrollTo(0,st&&st.y||0)}slide(dir);cb()}
-function go(d){try{history.pushState(null,'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;sid=null;render(0)}
-function apri(id){const s=S.find(x=>x.id===id);try{history.replaceState({q:q.value,y:scrollY},'');history.pushState({from:dist,pushed:1},'','#/'+s.d+'/'+encodeURIComponent(id))}catch(e){}sid=id;render(1)}
-function back(){if(history.state&&history.state.pushed)history.back();else{const s=S.find(x=>x.id===sid);try{history.pushState(null,'','#/'+s.d)}catch(e){}dist=s.d;sid=null;render(-1)}}
+const dep=()=>sid?2:dist!=='Tutti'?1:0;
+function go(d){const b=dep();try{history.pushState(d==='Tutti'?null:{pushed:1},'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;sid=null;render(Math.sign(dep()-b))}
+function apri(id){const s=S.find(x=>x.id===id);try{history.replaceState({...(history.state||{}),q:q.value,y:scrollY},'');history.pushState({from:dist,pushed:1},'','#/'+s.d+'/'+encodeURIComponent(id))}catch(e){}sid=id;render(1)}
+function back(){if(history.state&&history.state.pushed)history.back();else if(!sid){dist='Tutti';try{history.pushState(null,'','#/')}catch(e){}render(-1)}else{const s=S.find(x=>x.id===sid);try{history.pushState(null,'','#/'+s.d)}catch(e){}dist=s.d;sid=null;render(-1)}}
 document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){e.preventDefault();apri(o.dataset.open);return}
 if(e.target.closest('[data-back]')){back();return}
 const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go)}});
-window.addEventListener('popstate',()=>{const was=!!sid;parse();render(was&&!sid?-1:!was&&sid?1:0,history.state)});
+window.addEventListener('popstate',()=>{const b=dep();parse();render(Math.sign(dep()-b),history.state)});
 // Mentre scorri la scheda: titolo piccolo nella barra e fila dei capitoli, con il capitolo in corso evidenziato
 const navH=()=>nav.offsetHeight;
-function cb(){tick=false;if(!cur)return;const y=navH(),h1=document.querySelector('.dh h1'),up=!!h1&&h1.getBoundingClientRect().bottom<y;
-nav.classList.toggle('tt',up);if(up!==cbar.classList.contains('on')){cbar.classList.toggle('on',up);cbar.style.top=y+'px'}
+function cb(){tick=false;const y=navH(),h1=document.querySelector('.dh h1,.ph h1'),up=!!h1&&h1.getBoundingClientRect().bottom<y;
+nav.classList.toggle('tt',up);if(!cur)return;if(up!==cbar.classList.contains('on')){cbar.classList.toggle('on',up);cbar.style.top=y+'px'}
 if(!up)return;const lim=y+cbar.offsetHeight+12;let a=-1;cur.querySelectorAll('.body>h3').forEach((h,i)=>{if(h.getBoundingClientRect().top<lim)a=i});
 const row=cbar.querySelector('.cb-s'),was=row.querySelector('.on'),now=row.children[a];if(was!==now){if(was)was.classList.remove('on');if(now){now.classList.add('on');row.scrollLeft=now.offsetLeft-16}}}
 const cbq=()=>{if(!tick){tick=true;requestAnimationFrame(cb)}};
