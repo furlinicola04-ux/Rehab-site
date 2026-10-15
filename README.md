@@ -17,7 +17,7 @@ manifest.webmanifest  nome e icone dell'app installata (img/app-192.png, img/app
 ## Aggiungere una scheda
 1. Apri il file della sezione (es. `js/schede-spalla.js`).
 2. Copia una scheda `S.push({...})` esistente e cambia `id` (unico), `t` (titolo) e i contenuti.
-3. `d` deve essere una sezione esistente (Spalla, Gomito, Mano, Anca, Ginocchio, Caviglia, Colonna, Muscoli, Principi).
+3. `d` deve essere una sezione esistente (Spalla, Gomito, Mano, Anca, Ginocchio, Caviglia, Testa, Colonna, Muscoli, Principi).
 4. Salva e ricarica `index.html`.
 
 Nuova sezione: aggiungi la voce in `DC` dentro `js/app.js`, crea `js/schede-<nome>.js` e aggiungi la riga `<script>` in `index.html` prima di `app.js`.
