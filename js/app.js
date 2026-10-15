@@ -47,7 +47,7 @@ b+=sec('Criteri di rientro',s.rts?rts(s.rts):'');
 b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
 return b}
 // Riga dell'elenco: tocco → pagina della scheda. Nella ricerca globale mostra anche la sezione.
-function row(s,tg){return `<a class='row sr' href='#/${s.d}/${encodeURIComponent(s.id)}' data-open='${esc(s.id)}' style='--dc:${DC[s.d].c}'><span class='rw'><b>${esc(s.t)}${s.nw?`<span class='nw'>NUOVA</span>`:''}</b>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}<i class='chev'></i></span></a>`}
+function row(s,tg){return `<a class='row sr' href='#/${s.d}/${encodeURIComponent(s.id)}' data-open='${esc(s.id)}' style='--dc:${DC[s.d].c}'><span class='rw'><b>${esc(s.t)}</b>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}<i class='chev'></i></span></a>`}
 // Chi ha attivato "riduci movimento" salta allo scorrimento senza animazione
 const RM=()=>matchMedia('(prefers-reduced-motion: reduce)').matches,SM=()=>RM()?'auto':'smooth';
 const flat=s=>JSON.stringify(s).toLowerCase();
@@ -64,7 +64,7 @@ const SH={'Classificazioni e tabelle':'Tabelle','Red e yellow flags':'Flag','Tes
 function detail(s,from){const back=from==='Tutti'?'Home':DC[from].l;
 document.body.classList.add('det');
 nav.innerHTML=`<button class='back' data-back aria-label='Torna a ${esc(back)}'><i class='bk'></i><span class='bl'>${esc(back)}</span></button><span class='nt'>${esc(s.t)}</span>`;
-document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}${s.nw?` <span class='nw'>NUOVA</span>`:''}</h1></div>`;
+document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}</h1></div>`;
 document.getElementById('tiles').style.display='none';
 list.innerHTML=`<article class='grp sc' id='c-${esc(s.id)}' style='--dc:${DC[s.d].c}'><div class='body'>${card(s)}</div></article>`;
 cur=list.firstElementChild;bindSrc(cur);
