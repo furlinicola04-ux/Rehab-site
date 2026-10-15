@@ -9,7 +9,7 @@ sez:[{h:`Gonfiore`,b:[`Posizione declive (mano sopra il cuore), movimento, autom
 red:[`Dita fredde, pallide o parestesie da gesso/tutore troppo stretto.`,`Dolore sproporzionato, edema e alterazioni cutanee: sospetta CRPS.`,`Ferita calda, secrezione, febbre.`],
 yel:[`Paziente che non si capacita della durata del dolore, paura di usare la mano.`],
 ex:[[`Automobilizzazione su palla`,`m`,`3×10 · più volte/die`,`Mano sulla palla, rotolarla in avanti (flessione) o indietro (estensione) restando a fine corsa qualche secondo.`,`Movimenti rapidi che non mantengono il fine corsa.`,`Mantenimenti più lunghi (LLPS).`],[`Preghiera e preghiera inversa`,`m`,`3×30 s · più volte/die`,`Palmi uniti abbassando le mani (estensione) o dorsi uniti (flessione).`,`Forzare con dolore.`,`Mantenimenti prolungati.`],[`Rotazioni con martello`,`m`,`3×10 · 3/die`,`Gomito al fianco, prono-supinazione con martello.`,`Compensi di spalla.`,`Impugnatura più lontana.`],[`Grip e pinza con pongo ed elastici`,`f`,`3×10-15 · RPE 3-6 · quotidiano`,`Strette, pinza termino-terminale e laterale, apertura contro elastico.`,`Presa dolorosa precoce.`,`Pongo più duro, presa fine e coordinazione.`]],
-f:[[`Flowers e LaStayo 1994 – effetto del TERT sulla rigidità articolare (J Hand Ther)`,`Flowers LaStayo 1994 total end range time joint stiffness`],[`Silverberg et al. 1996 – massaggio delle cicatrici`,`Silverberg 1996 scar massage`]]});
+f:[[`Flowers e LaStayo 1994 – effetto del TERT sulla rigidità articolare (J Hand Ther)`,`Flowers LaStayo 1994 total end range time joint stiffness`,`PMID 7951706`],[`Silverberg et al. 1996 – massaggio delle cicatrici`,`Silverberg 1996 scar massage`]]});
 
 S.push({id:`mano-radio`,d:`Mano`,t:`Frattura distale del radio`,nw:1,
 sub:`Conservativa o ORIF con placca volare`,
@@ -35,7 +35,7 @@ tst:[[`Palpazione della tabacchiera`,`E del tubercolo dello scafoide.`,`Sospetto
 ex:[[`Dita attive in immobilizzazione`,`m`,`2×15 · 3/die`,`Pugno, apertura, opposizione.`,`Trascurarle.`,`Polso dopo il permesso.`],[`Polso e presa`,`f`,`2×10 → 3×12 · RPE 4-6`,`Mobilità poi presa e resistenza.`,`Estensione forzata sotto carico.`,`Appoggio progressivo.`]],
 fasi:[{n:`Protezione`,w:`fino a unione sufficiente`,o:`Immobilizzazione`,k:`Dita, gomito, spalla attivi`,c:`Controllo clinico e imaging`,e:[0]},{n:`ROM e forza`,w:``,o:`Recupero del polso`,k:``,c:`Nessuna dolorabilità`,e:[1]},{n:`Campo`,w:`spesso ≥8-12 sett.`,o:`Pallone, cadute, contatto`,k:`Molto oltre nel polo prossimale`,c:`Clearance ortopedica`,e:[1]}],
 ev:[[`Diagnosi tempestiva e conferma di consolidazione`,`Centrale`,`Consenso`],[`Esercizio per rigidità dopo immobilizzazione`,`Supporto`,`—`],[`Giocare perché "il gesso protegge"`,`Evitare`,`—`]],
-f:[[`Clementson et al. 2020 – raccomandazioni sulle fratture di scafoide`,`Clementson 2020 scaphoid fractures recommendations`]]});
+f:[[`Clementson et al. 2020 – raccomandazioni sulle fratture di scafoide`,`Clementson 2020 scaphoid fractures recommendations`,`PMID 32175096`]]});
 
 S.push({id:`mano-metacarpi`,d:`Mano`,t:`Fratture metacarpali (V metacarpo, base del I)`,nw:1,
 sub:`Frattura del pugile, Bennett e Rolando`,
@@ -82,7 +82,7 @@ tst:[[`Stress in valgo della MCF`,`In estensione e a 30° di flessione, confront
 ex:[[`Opposizione autorizzata`,`m`,`2×10 · 3/die`,`Pollice verso ogni polpastrello.`,`Stress in valgo.`,`Pinza isometrica leggera.`],[`Pinza e presa`,`f`,`4×10 s → 3×10 · RPE 4-6`,`Pinza termino-terminale e laterale.`,`Caricare la MCF prima del permesso.`,`Ricezioni a velocità progressiva.`]],
 fasi:[{n:`Protezione`,w:`0-3/6 sett.`,o:`Tutore`,k:`Articolazioni libere attive`,c:`Stabilità e permesso`,e:[]},{n:`ROM e forza`,w:`dopo 6-8 sett. se consentito`,o:`Opposizione e pinza`,k:``,c:`Nessun dolore in pinza`,e:[0,1]},{n:`Campo`,w:`8-12 sett. o oltre`,o:`Pallone, ruck, placcaggio`,k:`Eventuale protezione regolamentare`,c:`Pinza e presa ≥90%`,e:[1]}],
 ev:[[`Stabilità legamentosa e recupero di presa/pinza`,`Centrale`,`Limitata`],[`Ortesi e taping per compiti selezionati`,`Supporto`,`—`],[`Pinza e abduzione caricate precocemente`,`Evitare`,`—`]],
-f:[[`Allahabadi et al. 2023 – ritorno allo sport dopo lesione UCL del pollice, revisione sistematica`,`Allahabadi 2023 thumb ulnar collateral ligament return to sport systematic review`]]});
+f:[[`Allahabadi et al. 2023 – ritorno allo sport dopo lesione UCL del pollice trattata chirurgicamente, revisione sistematica`,`Allahabadi 2023 thumb ulnar collateral ligament return to sport systematic review`,`PMID 37323971`]]});
 
 S.push({id:`mano-dupuytren`,d:`Mano`,t:`Morbo di Dupuytren`,nw:1,
 sub:`Fibromatosi dell'aponeurosi palmare`,
@@ -106,4 +106,4 @@ tst:[[`Grind test`,`Compressione assiale e rotazione del 1° metacarpo sul trape
 ex:[[`Attivazione del primo interosseo dorsale`,`c`,`3×10 · 5 s`,`Pollice in abduzione palmare con MCF stabile, spinta contro resistenza leggera.`,`Iperestensione della MCF in pinza.`,`Pinza con pollice a "C" stabile.`],[`Prese fini e coordinazione`,`f`,`3×10`,`Pongo, mollette, raccolta di oggetti piccoli.`,`Presa a chiave dolorosa ripetuta.`,`Carico progressivo.`]],
 fasi:[{n:`Conservativo`,w:``,o:`Stabilità dinamica e gestione del carico`,k:`Educazione, ortesi su indicazione, esercizi`,c:`Dolore in calo, prese funzionali`,e:[0,1]},{n:`Post-chirurgico`,w:`3 sett. tutore`,o:`Proteggere l'intervento`,k:``,c:`Permesso`,e:[]},{n:`Recupero`,w:``,o:`Cicatrice, ROM, prese fini`,k:``,c:`Funzione adeguata`,e:[0,1]}],
 ev:[[`Esercizio di stabilità dinamica ed educazione`,`Centrale`,`Moderata-limitata`],[`Ortesi`,`Supporto`,`Sintomatica`]],
-f:[[`O'Brien e Giveans 2013 – esercizio nella rizoartrosi: approccio di instabilità dinamica (J Hand Ther)`,`O'Brien Giveans 2013 dynamic instability thumb carpometacarpal osteoarthritis`]]});
+f:[[`O'Brien e Giveans 2013 – esercizio nella rizoartrosi: approccio di instabilità dinamica (J Hand Ther)`,`O'Brien Giveans 2013 dynamic instability thumb carpometacarpal osteoarthritis`,`PMID 23177671`]]});
