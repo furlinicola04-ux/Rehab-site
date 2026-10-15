@@ -150,7 +150,7 @@ pre:[`Allenamento completo tollerato`,
  `Clearance del chirurgo prima del contatto`],
 nota:`Forza e lunghezza del tendine possono restare diverse dal lato sano anche dopo il rientro: mantenere calf raise con carico pesante nel programma.`},
 f:[[`Willits et al. 2010 – RCT chirurgia vs gestione funzionale con carico precoce`,`Willits 2010 operative versus nonoperative Achilles tendon rupture accelerated functional rehabilitation`,`PMID 21037028`],
- [`Revisione sul ritorno allo sport dopo rottura dell'Achille (autore da identificare)`,`Achilles tendon rupture return to sport rehabilitation systematic review`]]});
+ [`McCormack e Bovard 2015 – riabilitazione funzionale precoce o gesso dopo sutura dell'Achille, revisione sistematica e metanalisi di RCT (BJSM)`,`McCormack Bovard 2015 early functional rehabilitation cast immobilisation Achilles tendon rupture meta-analysis`,`PMID 26281836`]]});
 
 OLD.push({id:`rotuleo-tendinopatia`,d:`Ginocchio`,t:`Tendinopatia rotulea`,
 sub:``,
