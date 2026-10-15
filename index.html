@@ -12,6 +12,8 @@
 <!-- Icona: SVG per il browser, PNG 180x180 per la schermata Home di iPhone (iOS arrotonda gli angoli da solo) -->
 <link rel="icon" href="img/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<!-- App installabile e funzionante offline: manifest + service worker (sw.js) -->
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-title" content="Schede cliniche">
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -40,5 +42,10 @@
 <script src="js/schede-muscoli.js"></script>
 <script src="js/schede-principi.js"></script>
 <script src="js/app.js"></script>
+<script>
+// Funzionamento offline: registra il service worker solo su https (sito pubblicato) o su localhost
+if("serviceWorker" in navigator && (location.protocol==="https:" || location.hostname==="localhost"))
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
 </body>
 </html>

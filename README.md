@@ -10,6 +10,8 @@ js/fonti-corso.js     etichette delle fonti (lezioni UNIBS, testi). Si carica pe
 js/schede-base.js     schede di base + funzione M() che le estende
 js/schede-<sezione>.js  le schede, un file per sezione
 js/app.js             logica: home, navigazione, ricerca, spunta fonti
+sw.js                 service worker: salva il sito nel telefono per usarlo offline
+manifest.webmanifest  nome e icone dell'app installata (img/app-192.png, img/app-512.png)
 ```
 
 ## Aggiungere una scheda
@@ -32,6 +34,9 @@ Nuova sezione: aggiungi la voce in `DC` dentro `js/app.js`, crea `js/schede-<nom
 5. Se lavori anche da un altro computer, prima di iniziare premi **Fetch origin** e poi **Pull origin**.
 
 Repository: https://github.com/furlinicola04-ux/Rehab-site (privato)
+
+## Offline
+Il sito funziona anche senza connessione dopo la prima apertura online (su https). Da iPhone: Safari → Condividi → "Aggiungi alla schermata Home". Se aggiungi un nuovo file `js/schede-<sezione>.js`, aggiungilo anche all'elenco `FILES` in `sw.js` e aumenta `VERSION`.
 
 ## Note
 - La spunta "verificata su PubMed" è salvata solo nel browser in uso (localStorage).
