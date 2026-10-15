@@ -8,6 +8,7 @@ Mano:{c:'#0e7490',e:'Ma',l:'Mano e polso',t:'Fratture, legamenti, TFCC, Dupuytre
 Anca:{c:'#dc2626',e:'An',l:'Anca',t:'Coxartrosi e protesi, FAI, fratture di femore, dolore laterale'},
 Ginocchio:{c:'#047857',e:'Gi',l:'Ginocchio',t:'LCA, collaterali, LCP, menischi, artrosi, femoro-rotulea'},
 Caviglia:{c:'#b45309',e:'Ca',l:'Caviglia e piede',t:'Distorsioni, sindesmosi, Achille, fascite plantare'},
+Testa:{c:'#0f766e',e:'Tc',l:'Testa e collo',t:'Commozione cerebrale, stinger, trauma cervicale e colpo di frusta'},
 Colonna:{c:'#475569',e:'Co',l:'Colonna',t:'Low back pain, radicolopatia, stenosi, scoliosi, cervicobrachialgia'},
 Muscoli:{c:'#db2777',e:'Mu',l:'Lesioni muscolari',t:'Hamstring e polpaccio, fino al ritorno allo sprint'},
 Principi:{c:'#4d7c0f',e:'Pr',l:'Principi',t:'Dolore, dosaggio della forza, AMI, edema e cicatrice'}};
