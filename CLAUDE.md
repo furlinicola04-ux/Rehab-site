@@ -9,6 +9,7 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 - `js/schede-base.js`: schede di base e funzione `M()` che le estende.
 - `js/schede-<sezione>.js`: le schede, un file per sezione (spalla, gomito, mano, anca, ginocchio, caviglia, testa, colonna, muscoli, principi).
 - `js/app.js`: logica. Contiene `DC` (elenco sezioni con colore, sigla di due lettere nel campo `e`, descrizione). Niente emoji nell'interfaccia.
+- `casi.html` + `css/casi.css` + `js/casi.js` + `js/casi-dati.js`: casi clinici simulati (pagina separata, voce in fondo alle sezioni della home). Titolo del caso senza diagnosi; fonti solo da quelle già nella scheda collegata; aggiornare il numero dei casi nella riga della home in `js/app.js`.
 - `sw.js` + `manifest.webmanifest`: funzionamento offline e app installabile. Un nuovo file js va aggiunto a `FILES` in `sw.js` (e va aumentata `VERSION`).
 - L'ordine dei `<script>` in `index.html` è vincolante: fonti → base → sezioni → app.
 
