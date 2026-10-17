@@ -28,6 +28,20 @@ const m=`<div class='wrap'><table class='mx'><tr><th>Esercizio × fase</th>${F.m
 return t+lg+m+`<p class='note'>Un esercizio può attraversare più fasi con dose e leva diverse. I tempi sono finestre orientative: si avanza per criteri, non per calendario.</p>`}
 function rts(r){return `${r.intro?`<p>${esc(r.intro)}</p>`:''}<div class='crit two'>${r.c.map((c,i)=>`<div class='cr'><b>${i+1}. ${esc(c[0])}</b><dl><dt>Come</dt><dd>${esc(c[1])}</dd><dt>Target</dt><dd>${esc(c[2])}</dd><dt>Perché conta</dt><dd>${esc(c[3])}</dd></dl></div>`).join('')}</div>${r.pre&&r.pre.length?`<div class='pre'><b>Prima del contatto / della partita</b>${L(r.pre)}</div>`:''}${r.nota?`<p class='note'>${esc(r.nota)}</p>`:''}`}
 function ev(a){const cl={Centrale:'r-c',Supporto:'r-s',Evitare:'r-e'};return `<div class='wrap'><table class='ev-c'><tr><th>Intervento</th><th>Ruolo</th><th>Certezza e limite</th></tr>${a.map(r=>`<tr><td>${esc(r[0])}</td><td class='${cl[r[1]]||''}'>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</table></div>`}
+// Questionari: nel sito c'è solo il collegamento alla pagina o al PDF di chi li pubblica (mai una copia: il sito è pubblico e i moduli hanno un titolare).
+// Si mostrano nelle schede che li citano. Per aggiungerne uno: nome come scritto nelle schede, titolo esteso, indirizzo, nota sulla fonte.
+const PT='https://www.physiotutors.com/it/wp-content/uploads/';
+const QS=[
+['HAGOS','Hip and Groin Outcome Score (anca e inguine)',PT+'2023/04/hagos_hip_and_groin_questionnaire.pdf','PDF da Physiotutors (pagina italiana; il PDF potrebbe essere in inglese)'],
+['KOOS','Knee injury and Osteoarthritis Outcome Score (ginocchio)',PT+'2023/02/koos_knee_survey.pdf','PDF da Physiotutors (italiano)'],
+['ACL-RSI','Prontezza psicologica al ritorno allo sport dopo LCA',PT+'2023/02/ACL-RSI.pdf','PDF da Physiotutors'],
+['VISA-A','Tendinopatia di Achille',PT+'2023/04/VISA-A_Achilles_Questionnaire.pdf','PDF da Physiotutors'],
+['VISA-P','Tendinopatia rotulea',PT+'2023/04/VISA-P-Questionnaire.pdf','PDF da Physiotutors'],
+['DASH','Disabilità di braccio, spalla e mano','https://dash.iwh.on.ca/dash','Pagina del Institute for Work & Health: l\'uso richiede di accettare la licenza'],
+['QuickDASH','Versione breve del DASH','https://dash.iwh.on.ca/quickdash','Pagina del Institute for Work & Health: l\'uso richiede di accettare la licenza']
+];
+function quest(s){const {f,...r}=s,t=JSON.stringify(r);const m=QS.filter(q=>new RegExp('(^|[^A-Za-z0-9-])'+q[0]+'(?![A-Za-z0-9-])').test(t));
+return m.length?m.map(q=>`<div class='qst'><a href='${q[2]}' target='_blank' rel='noopener'><b>${esc(q[0])}</b> · ${esc(q[1])}</a><span class='cm'>${esc(q[3])}</span></div>`).join(''):''}
 function fonti(s){return s.f.map((f,i)=>{const k='v:'+s.id+i,on=ls(k)==='1';const u=f[2]?(f[2].startsWith('PMID')?'https://pubmed.ncbi.nlm.nih.gov/'+f[2].slice(4).trim()+'/':'https://doi.org/'+f[2]):P(f[1]);return `<div class='src'><input type='checkbox' id='${k}' data-k='${k}' ${on?'checked':''}><div><a href='${u}' target='_blank' rel='noopener'>${esc(f[0])}</a>${f[2]?` <span class='cm'>· ${f[2].startsWith('PMID')?esc(f[2]):'DOI'} dal materiale</span>`:''}<br><label for='${k}'>${on?'✓ verificata su PubMed':'da verificare su PubMed'}</label></div></div>`}).join('')}
 function sec(h,b){return b?`<h3>${h}</h3>${b}`:''}
 // Capitolo di ogni tabella o sezione extra (per titolo); una scheda nuova può indicarlo con il campo z.
@@ -45,7 +59,7 @@ if(s.key)b+=`<div class='keyb'><b>Punti chiave</b>${L(s.key)}</div>`;
 if(s.mat)b+=`<div class='mat'>${s.mat.map(m=>`<span>${esc(m)}</span>`).join('')}</div>`;
 b+=sec('Inquadramento',(s.inq?L(s.inq):'')+X.I);
 b+=sec('Red e yellow flags',(fl?`<div class='flg'>${fl}</div>`:'')+X.F);
-b+=sec('Valutazione',st(X.V&&'Test clinici',s.tst?tsts(s.tst):'')+X.V);
+b+=sec('Valutazione',st(X.V&&'Test clinici',s.tst?tsts(s.tst):'')+X.V+st('Questionari (collegamento al modulo)',quest(s)));
 b+=sec('Trattamento ed evidenza',X.T+st(X.T&&'Cosa funziona, cosa evitare',s.ev?ev(s.ev):''));
 b+=sec('Percorso per fasi',X.P+st(X.P&&'Fasi',s.fasi?fasi(s):''));
 b+=sec('Esercizi e carichi',X.E+st(X.E&&'Esercizi',s.ex&&s.ex.length?exs(s.ex):''));
