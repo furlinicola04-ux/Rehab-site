@@ -142,6 +142,7 @@ table.fz td[data-l]::before{content:attr(data-l);display:block;font-size:.78rem;
 .src input{flex:0 0 auto;width:22px;height:22px;margin:9px 0 0;accent-color:var(--ok);cursor:pointer}
 .src label{display:inline-block;padding:6px 0 6px;color:var(--mu);font-size:.81rem;cursor:pointer}.src .cm{font-size:.75rem;color:var(--ok);font-weight:600}
 .src>div{padding-top:7px}
+.qst{padding:8px 0;font-size:.94rem;border-bottom:.5px solid var(--ln)}.qst:last-child{border-bottom:0}.qst a{color:var(--ac);text-decoration:none}.qst .cm{display:block;margin-top:2px;font-size:.78rem;color:var(--mu);font-weight:400}
 .note{font-size:.81rem;color:var(--mu);margin-top:12px;line-height:1.4}
 .empty{color:var(--mu);text-align:center;padding:30px 0}
 .ev-c td:nth-child(2){font-weight:600}
