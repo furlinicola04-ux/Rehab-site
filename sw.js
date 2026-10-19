@@ -2,14 +2,15 @@
    Strategia "prima la rete": se sei online vedi sempre l'ultima versione (e la cache si aggiorna da sola),
    se sei offline o la rete non risponde entro 4 secondi si usa la copia salvata.
    Se aggiungi un file (es. una nuova js/schede-<sezione>.js), aggiungilo anche a FILES e aumenta VERSION. */
-const VERSION = "schede-v3";
+const VERSION = "schede-v5";
 const FILES = [
   "./", "index.html", "manifest.webmanifest", "css/style.css",
   "img/icon.svg", "img/apple-touch-icon.png", "img/app-192.png", "img/app-512.png",
   "js/fonti-corso.js", "js/schede-base.js",
   "js/schede-spalla.js", "js/schede-gomito.js", "js/schede-mano.js", "js/schede-anca.js",
   "js/schede-ginocchio.js", "js/schede-caviglia.js", "js/schede-testa.js", "js/schede-colonna.js",
-  "js/schede-muscoli.js", "js/schede-principi.js", "js/app.js"
+  "js/schede-muscoli.js", "js/schede-principi.js", "js/app.js",
+  "casi.html", "css/casi.css", "js/casi-dati.js", "js/casi.js"
 ];
 
 self.addEventListener("install", e => {
