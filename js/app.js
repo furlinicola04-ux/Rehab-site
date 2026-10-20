@@ -31,13 +31,19 @@ function ev(a){const cl={Centrale:'r-c',Supporto:'r-s',Evitare:'r-e'};return `<d
 // Questionari: nel sito c'è solo il collegamento alla pagina o al PDF di chi li pubblica (mai una copia: il sito è pubblico e i moduli hanno un titolare).
 // Si mostrano nelle schede che li citano. Per aggiungerne uno: nome come scritto nelle schede, titolo esteso, indirizzo, nota sulla fonte.
 const PT='https://www.physiotutors.com/it/wp-content/uploads/';
+const FS='https://www.fisioscience.it/wp-content/uploads/';
 const QS=[
 ['HAGOS','Hip and Groin Outcome Score (anca e inguine)',PT+'2023/04/hagos_hip_and_groin_questionnaire.pdf','PDF da Physiotutors (pagina italiana; il PDF potrebbe essere in inglese)'],
-['KOOS','Knee injury and Osteoarthritis Outcome Score (ginocchio)',PT+'2023/02/koos_knee_survey.pdf','PDF da Physiotutors (italiano)'],
+['KOOS','Knee injury and Osteoarthritis Outcome Score (ginocchio)',FS+'2023/04/Scala-KOOS-italiano.pdf','PDF in italiano da FisioScience (versione italiana di Monticone e colleghi)'],
 ['ACL-RSI','Prontezza psicologica al ritorno allo sport dopo LCA',PT+'2023/02/ACL-RSI.pdf','PDF da Physiotutors'],
-['VISA-A','Tendinopatia di Achille',PT+'2023/04/VISA-A_Achilles_Questionnaire.pdf','PDF da Physiotutors'],
-['VISA-P','Tendinopatia rotulea',PT+'2023/04/VISA-P-Questionnaire.pdf','PDF da Physiotutors'],
-['DASH','Disabilità di braccio, spalla e mano','https://dash.iwh.on.ca/dash','Pagina del Institute for Work & Health: l\'uso richiede di accettare la licenza'],
+['VISA-A','Tendinopatia di Achille',FS+'2021/06/VISAA_Italian.pdf','PDF in italiano da FisioScience'],
+['VISA-P','Tendinopatia rotulea',FS+'2022/07/VISA_P_in_ITA.pdf','PDF in italiano da FisioScience (adattamento per i maschi)'],
+['DASH','Disabilità di braccio, spalla e mano',FS+'2021/03/DASH_Italian.pdf','PDF in italiano da FisioScience; la pagina ufficiale (Institute for Work & Health) richiede di accettare la licenza'],
+['SPADI','Dolore e disabilità di spalla',FS+'2022/07/SPADI-italiano-PDF.pdf','PDF in italiano da FisioScience'],
+['WOSI','Instabilità di spalla (Western Ontario)',FS+'2022/09/Western_Ontario_Shoulder_Instability_Index_WOSI.pdf','PDF da FisioScience (validazione italiana di Cacchio e colleghi; non è indicato se il file sia in italiano)'],
+['NDI','Disabilità del collo (Neck Disability Index)',FS+'2021/04/neck_disability_index.pdf','PDF in italiano da FisioScience'],
+['WOMAC','Artrosi di anca e ginocchio',FS+'2021/02/womac-italiano-pdf.pdf','PDF in italiano da FisioScience'],
+['PRWE','Valutazione del polso riferita dal paziente','https://www.fisioscience.it/scale-valutazioni/prwe-patient-rated-wrist-evaluation/','Pagina di FisioScience: non offre il modulo in PDF'],
 ['QuickDASH','Versione breve del DASH','https://dash.iwh.on.ca/quickdash','Pagina del Institute for Work & Health: l\'uso richiede di accettare la licenza']
 ];
 function quest(s){const {f,...r}=s,t=JSON.stringify(r);const m=QS.filter(q=>new RegExp('(^|[^A-Za-z0-9-])'+q[0]+'(?![A-Za-z0-9-])').test(t));
