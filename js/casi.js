@@ -18,11 +18,12 @@ function toast(m){document.querySelectorAll('.toast').forEach(x=>x.remove());con
 const newEx=()=>({n:'',dos:'',int:'',freq:'',prog:''});
 const newFase=()=>({nome:'',dur:'',obj:'',crit:'',ex:[newEx()]});
 const blank=()=>({tab:'caso',ev:{},rev:false,done:false,plan:{diag:'',ob:{},fasi:[newFase(),newFase(),newFase()],rtp:[{c:'',t:'',s:''},{c:'',t:'',s:''},{c:'',t:'',s:''}]}});
-function load(id){let o=null;try{o=JSON.parse(localStorage.getItem('caso:'+id))}catch(e){}const b=blank();if(!o||typeof o!=='object')return b;
+function load(id){let o=null;try{o=JSON.parse(localStorage.getItem('caso:'+id))}catch(e){}const b=blank();if(!o||typeof o!=='object'){if(fatto(id)){b.done=true;b.rev=true}return b}
 const p=o.plan&&typeof o.plan==='object'?o.plan:{};
-return {tab:o.tab||'caso',ev:o.ev&&typeof o.ev==='object'?o.ev:{},rev:!!o.rev,done:!!o.done,plan:{diag:p.diag||'',ob:p.ob||{},fasi:Array.isArray(p.fasi)&&p.fasi.length?p.fasi:b.plan.fasi,rtp:Array.isArray(p.rtp)&&p.rtp.length?p.rtp:b.plan.rtp}}}
+return {tab:o.tab||'caso',ev:o.ev&&typeof o.ev==='object'?o.ev:{},rev:!!o.rev||fatto(id),done:!!o.done||fatto(id),plan:{diag:p.diag||'',ob:p.ob||{},fasi:Array.isArray(p.fasi)&&p.fasi.length?p.fasi:b.plan.fasi,rtp:Array.isArray(p.rtp)&&p.rtp.length?p.rtp:b.plan.rtp}}}
 function save(){try{localStorage.setItem('caso:'+C.id,JSON.stringify(S))}catch(e){}}
-function stato(id){let o=null;try{o=JSON.parse(localStorage.getItem('caso:'+id))}catch(e){}if(!o)return['da fare',''];if(o.done)return['concluso','fin'];return['in corso','on']}
+function fatto(id){const c=CASI.find(x=>x.id===id);return !!(c&&c.fatto)}
+function stato(id){let o=null;try{o=JSON.parse(localStorage.getItem('caso:'+id))}catch(e){}if(fatto(id)||(o&&o.done))return['concluso','fin'];if(!o)return['da fare',''];return['in corso','on']}
 // Una voce risulta "citata" se il testo dell'aspetto contiene una parola lunga del nome o dei sinonimi: controllo approssimativo
 function cited(it){const t=norm(S.ev[it.c]);if(!t.trim())return false;return norm(it.l+' '+(it.a||'')).split(/[^a-z0-9]+/).filter(x=>x.length>=5&&!STOP.includes(x)).some(x=>t.includes(x))}
 
