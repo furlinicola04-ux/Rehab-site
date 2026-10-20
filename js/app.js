@@ -46,6 +46,7 @@ const QS=[
 ['PRWE','Valutazione del polso riferita dal paziente','https://www.fisioscience.it/scale-valutazioni/prwe-patient-rated-wrist-evaluation/','Pagina di FisioScience: non offre il modulo in PDF'],
 ['QuickDASH','Versione breve del DASH','https://dash.iwh.on.ca/sites/dash/files/Translations/QuickDASH_Italian.pdf','PDF in italiano dal Institute for Work & Health (traduzione di Zanoli e GLOBE); l\'uso richiede di rispettare i loro termini'],
 ['IKDC','Valutazione soggettiva del ginocchio (IKDC)',PT+'2023/02/IKDC_Subjective_Knee_Evaluation_Form.pdf','PDF da Physiotutors (pagina italiana)'],
+['CAIT','Instabilità cronica di caviglia (Cumberland Ankle Instability Tool)','https://doi.org/10.1016/j.foot.2023.102043','Articolo di Contri e colleghi (The Foot 2023, PMID 37295293) con la versione italiana CAIT-I nell\'Appendice A; il PDF non è libero, quindi si apre dalla pagina dell\'editore'],
 ['SCAT6','Valutazione della commozione cerebrale (SCAT6, inglese)','https://pedsconcussion.com/scat6-3','Modulo SCAT6 in inglese (copia del file di BJSM 2023, ospitata da terzi: il testo dice che può essere copiato senza modifiche); articolo ufficiale: bjsm.bmj.com/content/57/11/619. Nessuna versione italiana verificata']
 ];
 function quest(s){const {f,...r}=s,t=JSON.stringify(r);const m=QS.filter(q=>new RegExp('(^|[^A-Za-z0-9-])'+q[0]+'(?![A-Za-z0-9-])').test(t));
