@@ -46,7 +46,7 @@ const QS=[
 ['PRWE','Valutazione del polso riferita dal paziente','https://www.fisioscience.it/scale-valutazioni/prwe-patient-rated-wrist-evaluation/','Pagina di FisioScience: non offre il modulo in PDF'],
 ['QuickDASH','Versione breve del DASH','https://dash.iwh.on.ca/sites/dash/files/Translations/QuickDASH_Italian.pdf','PDF in italiano dal Institute for Work & Health (traduzione di Zanoli e GLOBE); l\'uso richiede di rispettare i loro termini'],
 ['IKDC','Valutazione soggettiva del ginocchio (IKDC)',PT+'2023/02/IKDC_Subjective_Knee_Evaluation_Form.pdf','PDF da Physiotutors (pagina italiana)'],
-['SCAT6','Valutazione della commozione cerebrale (SCAT6)','https://bjsm.bmj.com/content/57/11/619','Articolo ufficiale su BJSM (inglese): non esiste una versione italiana verificata; le traduzioni vanno approvate da BMJ e dal gruppo CISG']
+['SCAT6','Valutazione della commozione cerebrale (SCAT6, inglese)','https://pedsconcussion.com/scat6-3','Modulo SCAT6 in inglese (copia del file di BJSM 2023, ospitata da terzi: il testo dice che può essere copiato senza modifiche); articolo ufficiale: bjsm.bmj.com/content/57/11/619. Nessuna versione italiana verificata']
 ];
 function quest(s){const {f,...r}=s,t=JSON.stringify(r);const m=QS.filter(q=>new RegExp('(^|[^A-Za-z0-9-])'+q[0]+'(?![A-Za-z0-9-])').test(t));
 return m.length?m.map(q=>`<div class='qst'><a href='${q[2]}' target='_blank' rel='noopener'><b>${esc(q[0])}</b> · ${esc(q[1])}</a><span class='cm'>${esc(q[3])}</span></div>`).join(''):''}
