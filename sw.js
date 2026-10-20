@@ -2,7 +2,7 @@
    Strategia "prima la rete": se sei online vedi sempre l'ultima versione (e la cache si aggiorna da sola),
    se sei offline o la rete non risponde entro 4 secondi si usa la copia salvata.
    Se aggiungi un file (es. una nuova js/schede-<sezione>.js), aggiungilo anche a FILES e aumenta VERSION. */
-const VERSION = "schede-v12";
+const VERSION = "schede-v13";
 const FILES = [
   "./", "index.html", "manifest.webmanifest", "css/style.css",
   "img/icon.svg", "img/apple-touch-icon.png", "img/app-192.png", "img/app-512.png",
@@ -10,7 +10,8 @@ const FILES = [
   "js/schede-spalla.js", "js/schede-gomito.js", "js/schede-mano.js", "js/schede-anca.js",
   "js/schede-ginocchio.js", "js/schede-caviglia.js", "js/schede-testa.js", "js/schede-colonna.js",
   "js/schede-muscoli.js", "js/schede-principi.js", "js/app.js",
-  "casi.html", "css/casi.css", "js/casi-dati.js", "js/casi.js"
+  "casi.html", "css/casi.css", "js/casi-dati.js", "js/casi.js",
+  "note.html", "js/note.js"
 ];
 
 self.addEventListener("install", e => {
@@ -36,7 +37,9 @@ function dallaRete(req, chiave){
 self.addEventListener("fetch", e => {
   const req = e.request;
   if(req.method !== "GET" || new URL(req.url).origin !== location.origin) return; // PubMed, DOI: lascia passare
-  const chiave = req.mode === "navigate" ? "index.html" : req;
+  // Pagine: la copia salvata è quella della pagina richiesta (index, casi o note), senza ?parametri né #ancore
+  const u = new URL(req.url);
+  const chiave = req.mode === "navigate" ? (u.pathname.endsWith("/") ? "index.html" : u.origin + u.pathname) : req;
   e.respondWith(dallaRete(req, chiave).catch(() =>
     caches.match(chiave, { ignoreSearch: true }).then(hit => hit || fetch(req))));
 });

@@ -55,3 +55,15 @@
 .cv button:focus-visible,.ctabs button:focus-visible,.cv textarea:focus-visible,.cv input:focus-visible,.cat summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 a.cbtn,a.back{text-decoration:none}
 a.cbtn{display:inline-block}
+/* Note personali (note.html) e collegamento "Note" nella barra dei casi */
+.nlk{margin-left:auto;align-self:center;color:var(--ac);text-decoration:none;font-size:1.0625rem;padding:6px 0 6px 12px;min-height:40px;display:flex;align-items:center}
+.nlk:active{opacity:.5}
+.cv input[type=search]{margin:0}
+.nl{margin:0;gap:8px}
+.nr{color:var(--tx);text-decoration:none;gap:4px}
+.nr:active{background:var(--hl)}
+.nr b{font-size:1.0625rem;line-height:1.3;overflow-wrap:anywhere}
+.nx{color:var(--mu);font-size:.94rem;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+.nfil{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cv input.nti{font-size:1.25rem;font-weight:600;border:0;background:transparent;padding:4px 0}
+.cv textarea.ntx{min-height:220px;line-height:1.5;resize:none;overflow:hidden}
