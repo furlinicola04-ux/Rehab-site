@@ -38,13 +38,15 @@ const QS=[
 ['ACL-RSI','Prontezza psicologica al ritorno allo sport dopo LCA',PT+'2023/02/ACL-RSI.pdf','PDF da Physiotutors'],
 ['VISA-A','Tendinopatia di Achille',FS+'2021/06/VISAA_Italian.pdf','PDF in italiano da FisioScience'],
 ['VISA-P','Tendinopatia rotulea',FS+'2022/07/VISA_P_in_ITA.pdf','PDF in italiano da FisioScience (adattamento per i maschi)'],
-['DASH','Disabilità di braccio, spalla e mano',FS+'2021/03/DASH_Italian.pdf','PDF in italiano da FisioScience; la pagina ufficiale (Institute for Work & Health) richiede di accettare la licenza'],
+['DASH','Disabilità di braccio, spalla e mano','https://dash.iwh.on.ca/sites/dash/files/Translations/DASH_Italian.pdf','PDF in italiano dal Institute for Work & Health (traduzione di Zanoli e GLOBE); l\'uso richiede di rispettare i loro termini'],
 ['SPADI','Dolore e disabilità di spalla',FS+'2022/07/SPADI-italiano-PDF.pdf','PDF in italiano da FisioScience'],
 ['WOSI','Instabilità di spalla (Western Ontario)',FS+'2022/09/Western_Ontario_Shoulder_Instability_Index_WOSI.pdf','PDF da FisioScience (validazione italiana di Cacchio e colleghi; non è indicato se il file sia in italiano)'],
 ['NDI','Disabilità del collo (Neck Disability Index)',FS+'2021/04/neck_disability_index.pdf','PDF in italiano da FisioScience'],
 ['WOMAC','Artrosi di anca e ginocchio',FS+'2021/02/womac-italiano-pdf.pdf','PDF in italiano da FisioScience'],
 ['PRWE','Valutazione del polso riferita dal paziente','https://www.fisioscience.it/scale-valutazioni/prwe-patient-rated-wrist-evaluation/','Pagina di FisioScience: non offre il modulo in PDF'],
-['QuickDASH','Versione breve del DASH','https://dash.iwh.on.ca/quickdash','Pagina del Institute for Work & Health: l\'uso richiede di accettare la licenza']
+['QuickDASH','Versione breve del DASH','https://dash.iwh.on.ca/sites/dash/files/Translations/QuickDASH_Italian.pdf','PDF in italiano dal Institute for Work & Health (traduzione di Zanoli e GLOBE); l\'uso richiede di rispettare i loro termini'],
+['IKDC','Valutazione soggettiva del ginocchio (IKDC)',PT+'2023/02/IKDC_Subjective_Knee_Evaluation_Form.pdf','PDF da Physiotutors (pagina italiana)'],
+['SCAT6','Valutazione della commozione cerebrale (SCAT6)','https://bjsm.bmj.com/content/57/11/619','Articolo ufficiale su BJSM (inglese): non esiste una versione italiana verificata; le traduzioni vanno approvate da BMJ e dal gruppo CISG']
 ];
 function quest(s){const {f,...r}=s,t=JSON.stringify(r);const m=QS.filter(q=>new RegExp('(^|[^A-Za-z0-9-])'+q[0]+'(?![A-Za-z0-9-])').test(t));
 return m.length?m.map(q=>`<div class='qst'><a href='${q[2]}' target='_blank' rel='noopener'><b>${esc(q[0])}</b> · ${esc(q[1])}</a><span class='cm'>${esc(q[3])}</span></div>`).join(''):''}
