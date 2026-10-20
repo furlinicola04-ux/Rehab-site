@@ -29,7 +29,7 @@ function cited(it){const t=norm(S.ev[it.c]);if(!t.trim())return false;return nor
 
 // ---- Elenco dei casi
 function elenco(){C=null;document.body.classList.remove('home');document.title='Casi clinici · Schede cliniche';
-nav.innerHTML='';nav.appendChild(h('a',{class:'back',href:'index.html','aria-label':'Torna alla home'},[h('i',{class:'bk'}),h('span',{class:'bl',text:'Home'})]));
+nav.innerHTML='';nav.appendChild(h('a',{class:'back',href:'index.html','aria-label':'Torna alla home'},[h('i',{class:'bk'}),h('span',{class:'bl',text:'Home'})]));nav.appendChild(h('a',{class:'nlk',href:'note.html'+(C?'?caso='+encodeURIComponent(C.id):''),text:'Note'}));
 hero.innerHTML=`<div class='ph' style='--dc:#6d28d9'><h1>Casi clinici</h1><p>${CASI.length} casi simulati · valutazione, piano e rientro</p></div>`;
 view.innerHTML='';const w=h('div',{class:'cv'});
 w.appendChild(h('div',{class:'ccard'},[h('h3',{text:'Come funziona'}),
@@ -46,7 +46,7 @@ view.appendChild(w)}
 // ---- Caso
 function apri(c){if(!C||C.id!==c.id){C=c;S=load(c.id);conf=false}
 document.title=c.t+' · Casi clinici';
-nav.innerHTML='';nav.appendChild(h('a',{class:'back',href:'#','aria-label':"Torna all'elenco dei casi"},[h('i',{class:'bk'}),h('span',{class:'bl',text:'Casi'})]));
+nav.innerHTML='';nav.appendChild(h('a',{class:'back',href:'#','aria-label':"Torna all'elenco dei casi"},[h('i',{class:'bk'}),h('span',{class:'bl',text:'Casi'})]));nav.appendChild(h('a',{class:'nlk',href:'note.html'+(C?'?caso='+encodeURIComponent(C.id):''),text:'Note'}));
 const col=SEZ[c.d]||['#6b7280',c.d];
 hero.innerHTML='';hero.appendChild(h('div',{class:'ph',style:'--dc:'+col[0]},[h('h1',{text:'Caso '+(CASI.indexOf(c)+1)}),h('p',{text:c.t})]));
 const tb=h('div',{class:'ctabs',role:'tablist'});
