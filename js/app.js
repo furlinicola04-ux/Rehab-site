@@ -77,6 +77,35 @@ b+=sec('Prevenzione',X.X);
 b+=sec('Caso clinico',X.C);
 b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
 return b}
+// Valutazione del distretto (va:1): pagina a tappe come l'esame, non a capitoli come le patologie.
+// Ogni test ha un'etichetta (a cosa serve) e le situazioni in cui è utile, che i filtri in cima usano per nascondere il resto.
+const VE={e:['Esclude','Test sensibile: se è negativo la lesione è poco probabile'],c:['Conferma','Test specifico: se è positivo la lesione è probabile'],m:['Misura','Serve a misurare e seguire i progressi'],o:['Orienta','Studiato, ma da solo poco accurato'],n:['Non studiato','Test classico senza dati di accuratezza']};
+const VS={a:'Trauma acuto',c:'Dolore che dura',r:'Rientro in campo'};
+function vcard(s){const nt=s.tp.reduce((n,x)=>n+x.t.filter(t=>t.length>1).length,0);
+let b='';
+if(s.key)b+=`<div class='keyb'><b>Punti chiave</b>${L(s.key)}</div>`;
+if(s.mat)b+=`<div class='mat'>${s.mat.map(m=>`<span>${esc(m)}</span>`).join('')}</div>`;
+b+=`<div class='vf' role='group' aria-label='Mostra i test utili in una situazione'><button class='on' aria-pressed='true' data-vf=''>Tutti</button>${Object.keys(VS).map(k=>`<button aria-pressed='false' data-vf='${k}'>${VS[k]}</button>`).join('')}</div>`;
+b+=`<div class='vl'>${Object.keys(VE).map(k=>`<span><i class='vt vt-${k}'>${VE[k][0]}</i>${esc(VE[k][1])}</span>`).join('')}</div>`;
+const sq=(s.sez||[]).filter(x=>!/^Ritorno/.test(x.h)),rt=(s.sez||[]).filter(x=>/^Ritorno/.test(x.h));
+// Tabelle di riferimento (anatomia, ROM, scale) non legate a un test: richiudibili sotto il metodo
+const rq=sq.map(x=>`<details class='vq'><summary>${esc(x.h)}</summary>${L(x.b)}</details>`).join('')+(s.tab||[]).map(t=>`<details class='vq'><summary>${esc(t.t)}</summary>${tab({...t,t:''})}</details>`).join('');
+if(rq)b+=`<h3>Come si procede</h3>`+rq;
+b+=`<h3>Tappe dell'esame</h3><p class='note'>${nt} test. Tocca una tappa per aprirla.</p>`;
+b+=s.tp.map((p,i)=>{const ts=p.t.map(t=>t.length===1?`<div class='tt vg'>${esc(t[0])}</div>`:`<div class='vc' data-s='${t[2]}'><div class='vh'><b>${esc(t[0])}</b><span>${[...t[1]].map(k=>`<i class='vt vt-${k}'>${VE[k][0]}</i>`).join('')}</span></div><dl><dt>Come si fa</dt><dd>${esc(t[3])}</dd><dt>Cosa dice la letteratura</dt><dd>${esc(t[4])}</dd></dl><div class='vsit'>${[...t[2]].map(k=>VS[k]).join(' · ')}</div></div>`).join('');
+const fl=i===0&&s.red?`<div class='flg'>${s.red.map(x=>`<div class='fl r'><b>Red flag</b>${esc(x)}</div>`).join('')}</div>`:'';
+const qq=i===s.tp.length-1?quest(s):'';
+return `<details class='tp'${i===0?' open':''}><summary><span class='tn'>${i+1}</span><span class='tl'>${esc(p.n)}</span><span class='tc'>${p.t.filter(t=>t.length>1).length}</span></summary><div class='tb'>${fl}${ts}${p.nt?`<p class='note'>${esc(p.nt)}</p>`:''}${(p.tab||[]).map(tab).join('')}${qq?`<div class='tt'>Questionari (collegamento al modulo)</div>`+qq:''}</div></details>`}).join('');
+b+=`<p class='empty vno' hidden>Nessun test per questa situazione.</p>`;
+if(rt.length||s.yel)b+=`<h3>Ritorno allo sport</h3>`+rt.map(x=>`<div class='tt'>${esc(x.h)}</div>${L(x.b)}`).join('')+(s.yel?`<div class='flg'>${s.yel.map(x=>`<div class='fl y'><b>Yellow flag</b>${esc(x)}</div>`).join('')}</div>`:'');
+b+=sec('Fonti',s.f&&s.f.length?fonti(s):'');
+return b}
+// Filtro delle situazioni: nasconde i test non utili e le tappe rimaste vuote, apre quelle con risultati
+function vfiltro(root,k){root.querySelectorAll('[data-vf]').forEach(x=>{const on=x.dataset.vf===k;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});
+let tot=0;root.querySelectorAll('details.tp').forEach((d,i)=>{let n=0;d.querySelectorAll('.vc').forEach(c=>{const ok=!k||c.dataset.s.includes(k);c.hidden=!ok;if(ok)n++});
+d.querySelectorAll('.vg').forEach(g=>{let e=g.nextElementSibling,ok=false;while(e&&e.classList.contains('vc')){if(!e.hidden)ok=true;e=e.nextElementSibling}g.hidden=!ok});
+d.hidden=!n;d.querySelector('.tc').textContent=n;if(k)d.open=!!n;else d.open=i===0;tot+=n});
+root.querySelector('.vno').hidden=!!tot}
 // Riga dell'elenco: tocco → pagina della scheda. Nella ricerca globale mostra anche la sezione.
 function row(s,tg){return `<a class='row sr' href='#/${s.d}/${encodeURIComponent(s.id)}' data-open='${esc(s.id)}' style='--dc:${DC[s.d].c}'><span class='rw'><b>${esc(s.t)}</b>${tg?`<span class='tag'>${esc(DC[s.d].l)}</span>`:''}<i class='chev'></i></span></a>`}
 // Chi ha attivato "riduci movimento" salta allo scorrimento senza animazione
@@ -86,8 +115,8 @@ const q=document.getElementById('q'),list=document.getElementById('list'),nav=do
 let dist='Tutti',sid=null,cur=null,tick=false;
 function bindSrc(root){root.querySelectorAll('input[data-k]').forEach(c=>c.onchange=()=>{ls(c.dataset.k,c.checked?'1':'0');c.parentElement.querySelector('label').textContent=c.checked?'✓ verificata su PubMed':'da verificare su PubMed';prog()})}
 function draw(){const t=q.value.trim().toLowerCase();const home=dist==='Tutti'&&!t;
-document.getElementById('tiles').style.display=home?'':'none';
-const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(!t||flat(s).includes(t)));
+document.getElementById('tiles').style.display=t?'none':'';
+const r=S.filter(s=>(dist==='Tutti'||s.d===dist)&&(t?flat(s).includes(t):!s.va));
 list.innerHTML=home?'':(r.length?`<div class='lst'>${r.map(s=>row(s,dist==='Tutti')).join('')}</div>`:"<p class='empty'>Nessuna scheda trovata.</p>")}
 // Numero di note personali (salvate da note.html) accanto alla voce Note della home
 function nnote(){let k=0;try{const o=JSON.parse(localStorage.getItem('note'));if(Array.isArray(o))k=o.length}catch(e){}const m=document.getElementById('nnum');if(m)m.textContent=k?String(k):''}
@@ -99,11 +128,11 @@ document.body.classList.add('det');
 nav.innerHTML=`<button class='back' data-back aria-label='Torna a ${esc(back)}'><i class='bk'></i><span class='bl'>${esc(back)}</span></button><span class='nt'>${esc(s.t)}</span>`;
 document.getElementById('hero').innerHTML=`<div class='dh' style='--dc:${DC[s.d].c}'><span class='dk'>${esc(DC[s.d].l)}</span><h1>${esc(s.t)}</h1></div>`;
 document.getElementById('tiles').style.display='none';
-list.innerHTML=`<article class='grp sc' id='c-${esc(s.id)}' style='--dc:${DC[s.d].c}'><div class='body'>${card(s)}</div></article>`;
+list.innerHTML=`<article class='grp sc${s.va?' va':''}' id='c-${esc(s.id)}' style='--dc:${DC[s.d].c}'><div class='body'>${s.va?vcard(s):card(s)}</div></article>`;
 cur=list.firstElementChild;bindSrc(cur);
 cbar.style.setProperty('--dc',DC[s.d].c);
 cbar.innerHTML=`<div class='cb-in'><div class='cb-s'>${[...cur.querySelectorAll('.body>h3')].map((h,i)=>`<a data-h='${i}'>${esc(SH[h.textContent]||h.textContent.replace(/\s*\([^)]*\)/g,'').trim())}</a>`).join('')}</div></div>`}
-function lista(){const n=d=>S.filter(s=>s.d===d).length;
+function lista(){const n=d=>S.filter(s=>s.d===d&&!s.va).length;
 document.body.classList.remove('det');cur=null;cbar.classList.remove('on');nav.classList.remove('tt');
 // Niente menu delle sezioni: in home la barra sparisce, in una sezione resta solo "‹ Home"
 document.body.classList.toggle('home',dist==='Tutti');
@@ -111,7 +140,9 @@ nav.innerHTML=dist==='Tutti'?'':`<button class='back' data-back aria-label='Torn
 const hero=document.getElementById('hero'),tl=document.getElementById('tiles');
 if(dist==='Tutti'){hero.innerHTML=`<div class='hero'><h1>Schede cliniche</h1></div>`;
 tl.innerHTML=`<p class='gh'>Sezioni</p><div class='grp'>${Object.keys(DC).map(k=>`<a class='row' data-go='${k}'><span class='ri' style='--dc:${DC[k].c}'>${DC[k].e}</span><span class='rw'><b>${DC[k].l}</b><span class='rc'>${n(k)}</span><i class='chev'></i></span></a>`).join('')}<a class='row' href='casi.html'><span class='ri' style='--dc:#6d28d9'>Cc</span><span class='rw'><b>Casi clinici</b><span class='rc'>15</span><i class='chev'></i></span></a><a class='row' href='note.html'><span class='ri' style='--dc:#a16207'>No</span><span class='rw'><b>Note</b><span class='rc' id='nnum'></span><i class='chev'></i></span></a></div><p class='gh'>Studio</p><div class='grp'><div class='pgc'><div class='pgr'><span>Fonti verificate su PubMed</span><span id='pgt'></span></div><div class='pg'><div></div></div></div></div>`;prog();nnote()}
-else{hero.innerHTML=`<div class='ph' style='--dc:${DC[dist].c}'><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;tl.innerHTML=''}
+else{hero.innerHTML=`<div class='ph' style='--dc:${DC[dist].c}'><h1>${DC[dist].l}</h1><p>${DC[dist].t} · ${n(dist)} schede</p></div>`;
+// Esame del distretto: riquadro a parte, nel colore della sezione, sopra l'elenco delle patologie
+const v=S.find(s=>s.d===dist&&s.va);tl.innerHTML=v?`<a class='vb' href='#/${v.d}/${encodeURIComponent(v.id)}' data-open='${esc(v.id)}' style='--dc:${DC[dist].c}'><span class='vbk'>Esame del distretto</span><b>Test, scale e test funzionali</b><span class='vbs'>${v.tp.reduce((n,x)=>n+x.t.filter(t=>t.length>1).length,0)} test in ${v.tp.length} tappe, nell'ordine in cui li fai</span><i class='chev'></i></a><p class='gh'>Patologie</p>`:''}
 q.placeholder=dist==='Tutti'?'Cerca in tutte le schede…':'Cerca in '+DC[dist].l}
 // Transizione da app: la scheda entra da destra ed esce verso destra (stesso percorso); con "riduci movimento" solo dissolvenza
 function slide(dir){if(!dir||!document.body.animate)return;const k=RM()?[{opacity:0},{opacity:1}]:[{transform:`translateX(${dir*28}%)`,opacity:0},{transform:'none',opacity:1}];
@@ -124,7 +155,8 @@ const dep=()=>sid?2:dist!=='Tutti'?1:0;
 function go(d){const b=dep();try{history.pushState(d==='Tutti'?null:{pushed:1},'','#/'+(d==='Tutti'?'':d))}catch(e){}dist=d;sid=null;render(Math.sign(dep()-b))}
 function apri(id){const s=S.find(x=>x.id===id);try{history.replaceState({...(history.state||{}),q:q.value,y:scrollY},'');history.pushState({from:dist,pushed:1},'','#/'+s.d+'/'+encodeURIComponent(id))}catch(e){}sid=id;render(1)}
 function back(){if(history.state&&history.state.pushed)history.back();else if(!sid){dist='Tutti';try{history.pushState(null,'','#/')}catch(e){}render(-1)}else{const s=S.find(x=>x.id===sid);try{history.pushState(null,'','#/'+s.d)}catch(e){}dist=s.d;sid=null;render(-1)}}
-document.addEventListener('click',e=>{const o=e.target.closest('[data-open]');if(o){e.preventDefault();apri(o.dataset.open);return}
+document.addEventListener('click',e=>{const f=e.target.closest('[data-vf]');if(f&&cur){vfiltro(cur,f.dataset.vf);return}
+const o=e.target.closest('[data-open]');if(o){e.preventDefault();apri(o.dataset.open);return}
 if(e.target.closest('[data-back]')){back();return}
 const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go)}});
 window.addEventListener('popstate',()=>{const b=dep();parse();render(Math.sign(dep()-b),history.state)});
