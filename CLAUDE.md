@@ -42,7 +42,7 @@ Sito statico personale (HTML/CSS/JS, nessun build) di schede di riabilitazione o
 
 ## Verifica dopo ogni modifica
 - Aprire `index.html` in un browser e controllare: nessun errore in console, home, ogni sezione, ricerca.
-- Contare le schede (oggi 101) e controllare che non ne sparisca nessuna.
+- Contare le schede (oggi 102) e controllare che non ne sparisca nessuna.
 
 ## Git
 - Commit piccoli, messaggi in italiano, uno per scheda o per funzione.
