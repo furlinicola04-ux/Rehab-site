@@ -2,7 +2,7 @@
    Strategia "prima la rete": se sei online vedi sempre l'ultima versione (e la cache si aggiorna da sola),
    se sei offline o la rete non risponde entro 4 secondi si usa la copia salvata.
    Se aggiungi un file (es. una nuova js/schede-<sezione>.js), aggiungilo anche a FILES e aumenta VERSION. */
-const VERSION="schede-v18";
+const VERSION="schede-v19";
 const FILES = [
   "./", "index.html", "manifest.webmanifest", "css/style.css",
   "img/icon.svg", "img/apple-touch-icon.png", "img/app-192.png", "img/app-512.png",
